@@ -1,4 +1,4 @@
-package pl.asc.claims;
+package pl.asc.claimsservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

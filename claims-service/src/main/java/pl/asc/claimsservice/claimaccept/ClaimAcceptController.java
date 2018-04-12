@@ -1,4 +1,4 @@
-package pl.asc.claims.claimaccept;
+package pl.asc.claimsservice.claimaccept;
 
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,4 +1,4 @@
-package pl.asc.claims.domain;
+package pl.asc.claimsservice.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

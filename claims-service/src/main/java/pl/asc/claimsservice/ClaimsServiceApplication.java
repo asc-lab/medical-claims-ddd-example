@@ -1,4 +1,4 @@
-package pl.asc.claims;
+package pl.asc.claimsservice;
 
 		import org.springframework.boot.SpringApplication;
 		import org.springframework.boot.autoconfigure.SpringBootApplication;
