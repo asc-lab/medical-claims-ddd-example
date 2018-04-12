@@ -1,4 +1,4 @@
 package pl.asc.claimsservice.policysynch;
 
-public class PolicySynchListner {
+public class PolicySyncListener {
 }
