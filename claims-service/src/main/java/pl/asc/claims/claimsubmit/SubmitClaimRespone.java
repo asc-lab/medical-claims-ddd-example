@@ -7,5 +7,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SumbitClaimRespone {
+public class SubmitClaimRespone {
 }
