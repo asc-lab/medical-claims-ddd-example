@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.policysearch;
+package pl.asc.claimsservice.claimsearch;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,5 +9,5 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PolicySearchRequest {
+public class ClaimSearchResponse {
 }

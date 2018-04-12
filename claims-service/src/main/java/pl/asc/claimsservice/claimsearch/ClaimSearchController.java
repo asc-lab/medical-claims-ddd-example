@@ -1,7 +1,7 @@
-package pl.asc.claimsservice.policysearch;
+package pl.asc.claimsservice.claimsearch;
 
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PolicySearchController {
+public class ClaimSearchController {
 }
