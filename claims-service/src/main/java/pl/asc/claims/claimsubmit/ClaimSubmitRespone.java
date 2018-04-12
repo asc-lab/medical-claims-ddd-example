@@ -7,5 +7,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubmitClaimRespone {
+public class ClaimSubmitRespone {
 }

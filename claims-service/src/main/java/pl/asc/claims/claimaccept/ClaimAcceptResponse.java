@@ -1,14 +1,13 @@
-package pl.asc.claims.claimsubmit;
+package pl.asc.claims.claimaccept;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubmitClaimRequest {
-
+public class ClaimAcceptResponse {
 }
