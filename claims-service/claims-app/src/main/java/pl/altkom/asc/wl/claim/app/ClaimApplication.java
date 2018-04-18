@@ -2,8 +2,11 @@ package pl.altkom.asc.wl.claim.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "pl.altkom.asc.wl.claim.domain")
+@ComponentScan(basePackages = "pl.altkom.asc.wl.claim.app")
 class ClaimApplication {
 
     public static void main(String[] args) {

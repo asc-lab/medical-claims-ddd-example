@@ -28,6 +28,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>pl.asc</groupId>
+            <artifactId>claims-domain-ports</artifactId>
+        </dependency>
+        
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
