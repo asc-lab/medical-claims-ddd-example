@@ -18,9 +18,9 @@ public class InMemoryPolicyRepositoryAdapter implements PolicyRepositoryPort {
 
     public InMemoryPolicyRepositoryAdapter() {
         this.repository = new HashMap<>();
-        this.repository.put("1590N100", new PolicyFromStorageDto());
-        this.repository.put("1590N101", new PolicyFromStorageDto());
-        this.repository.put("1590N102", new PolicyFromStorageDto());
+        this.repository.put("1590N100", new PolicyFromStorageDto("1590N100"));
+        this.repository.put("1590N101", new PolicyFromStorageDto("1590N101"));
+        this.repository.put("1590N102", new PolicyFromStorageDto("1590N102"));
     }
 
     @Override

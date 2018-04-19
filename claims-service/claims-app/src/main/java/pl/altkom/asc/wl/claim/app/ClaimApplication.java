@@ -5,8 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "pl.altkom.asc.wl.claim.domain")
-@ComponentScan(basePackages = "pl.altkom.asc.wl.claim.app")
+@ComponentScan(basePackages = {"pl.altkom.asc.wl.claim.app", "pl.altkom.asc.wl.claim.domain"})
 class ClaimApplication {
 
     public static void main(String[] args) {

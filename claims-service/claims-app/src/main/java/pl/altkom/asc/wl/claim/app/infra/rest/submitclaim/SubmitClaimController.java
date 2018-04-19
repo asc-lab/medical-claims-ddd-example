@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 class SubmitClaimController {
 
-    private final SubmitClaimAdapter submitClaimAdapter;
+    private final SubmitClaimAdapter submitClaim;
 
     @PostMapping(path = "policies/{policyNumber}/claims")
     public void submitNewClaimsForPolicy(@PathVariable("policyNumber") String policyNumber, @RequestBody NewClaimRequestDto newClaimRequest) {
         log.info("Request: {}", newClaimRequest);
 
-        submitClaimAdapter.submitNewClaimsForPolicy(policyNumber, newClaimRequest);
+        submitClaim.submitNewClaimsForPolicy(policyNumber, newClaimRequest);
     }
-
-
 
 }
