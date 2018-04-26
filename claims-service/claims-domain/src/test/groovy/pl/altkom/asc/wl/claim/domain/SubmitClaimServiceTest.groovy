@@ -2,7 +2,7 @@ package pl.altkom.asc.wl.claim.domain
 
 import com.google.common.collect.Lists
 import pl.altkom.asc.wl.claim.domain.port.input.NewClaimCommand
-import pl.altkom.asc.wl.claim.domain.port.output.PolicyRepositoryPort
+import pl.altkom.asc.wl.claim.domain.port.output.PolicyRepository
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -18,8 +18,8 @@ class SubmitClaimServiceTest extends Specification {
     @Unroll
     def "should return error if policy not exists"() {
         given:
-            def retrievePolicyPort = Mock(PolicyRepositoryPort.class)
-            when(retrievePolicyPort).get(any(String.class)).thenReturn(Optional.empty())
+            def retrievePolicyPort = Mock(PolicyRepository.class)
+            when(retrievePolicyPort).lastVersion(any(String.class)).thenReturn(Optional.empty())
             def submitClaimService = new ClaimsDomainConfiguration().submitClaimService(retrievePolicyPort)
 
         when:

@@ -1,14 +1,20 @@
 package pl.altkom.asc.wl.claim.domain;
 
-import lombok.RequiredArgsConstructor;
+import pl.altkom.asc.wl.claim.domain.policy.PolicyVersion;
 import pl.altkom.asc.wl.claim.domain.port.input.ErrorCode;
 import pl.altkom.asc.wl.claim.domain.port.input.GenericResponse;
 import pl.altkom.asc.wl.claim.domain.port.input.NewClaimCommand;
 import pl.altkom.asc.wl.claim.domain.port.input.SubmitClaimPort;
-import pl.altkom.asc.wl.claim.domain.port.output.PolicyFromStorageDto;
-import pl.altkom.asc.wl.claim.domain.port.output.PolicyRepositoryPort;
+import pl.altkom.asc.wl.claim.domain.port.output.ClaimRepository;
+import pl.altkom.asc.wl.claim.domain.port.output.PolicyRepository;
+import pl.altkom.asc.wl.claim.domain.port.output.PolicyVersionDto;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author tdorosz
@@ -16,37 +22,31 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class SubmitClaimService implements SubmitClaimPort {
 
-    private final PolicyRepositoryPort policyRepository;
-//    private final ClaimRepositoryPort claimRepository;
+    private final PolicyRepository policyRepository;
+    private final ClaimRepository claimRepository;
 
     @Override
-    public GenericResponse<String> process(NewClaimCommand newClaimCommand) {
-        Optional<PolicyFromStorageDto> policyFromStorage = policyRepository.get(newClaimCommand.getPolicyNumber());
+    public GenericResponse<String> process(NewClaimCommand cmd) {
+        Optional<PolicyVersionDto> policyFromStorage = policyRepository.lastVersion(cmd.getPolicyNumber());
 
-        if(!policyFromStorage.isPresent()) {
+        if (!policyFromStorage.isPresent()) {
             return GenericResponse.error(ErrorCode.CLAIMS_001);
         }
 
-        Policy policy = new PolicyAssembler().from(policyFromStorage.get());
+        final PolicyVersion policyVersion = new PolicyAssembler().from(policyFromStorage.get());
 
-        SubmittedClaim submittedClaim = new SubmittedClaim(policy, newClaimCommand.getEventDateTime());
+        final Incident incident = new Incident(cmd.getEventDateTime(), cmd.getMedicalInstitutionCode(), prepareClaimItems(cmd));
+        final SubmittedClaim submittedClaim = new SubmittedClaim(UUID.randomUUID());
+        submittedClaim.submitted(policyVersion, incident);
 
-
-
-        if (!submittedClaim.isRejected()) {
-            // calculate outpayment amount
-            // - check if cover exists in policy
-            // calculate
-
-            // check limit
-
-            // reserve limit
-        }
-
-        //save claim in repository
-//        claimRepository.save(submittedClaim);
-
+        claimRepository.save(submittedClaim.getUuid(), submittedClaim.getDirtyEvents());
 
         return GenericResponse.success("1234");
+    }
+
+    private Set<ClaimItem> prepareClaimItems(NewClaimCommand cmd) {
+        return cmd.getClaimPositions().stream()
+                .map(dto -> new ClaimItem(dto.getServiceCode(), dto.getCount(), dto.getAmount()))
+                .collect(Collectors.toSet());
     }
 }

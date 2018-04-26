@@ -1,13 +1,11 @@
-package pl.altkom.asc.wl.claim.domain;
+package pl.altkom.asc.wl.claim.domain.policy;
 
 import java.util.List;
 
 import lombok.Value;
 
 @Value
-class Policy {
-
-    private String number;
+public class Policy {
 
     private List<PolicyVersion> versions;
 

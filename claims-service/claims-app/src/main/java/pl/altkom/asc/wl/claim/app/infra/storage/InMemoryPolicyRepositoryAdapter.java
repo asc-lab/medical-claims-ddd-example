@@ -1,38 +1,47 @@
 package pl.altkom.asc.wl.claim.app.infra.storage;
 
-import org.springframework.stereotype.Component;
-import pl.altkom.asc.wl.claim.domain.port.output.PolicyFromStorageDto;
-import pl.altkom.asc.wl.claim.domain.port.output.PolicyRepositoryPort;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.Multimap;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.stereotype.Component;
+
+import pl.altkom.asc.wl.claim.domain.port.output.CoPaymentDto;
+import pl.altkom.asc.wl.claim.domain.port.output.CoverItemDto;
+import pl.altkom.asc.wl.claim.domain.port.output.PolicyRepository;
+import pl.altkom.asc.wl.claim.domain.port.output.PolicyVersionDto;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
+
+import static com.google.common.collect.ImmutableSet.of;
+import static pl.altkom.asc.wl.claim.domain.port.output.CoPaymentDto.CoPaymentType.AMOUNT;
+import static pl.altkom.asc.wl.claim.domain.port.output.CoPaymentDto.CoPaymentType.PERCENT;
 
 /**
  * @author tdorosz
  */
 @Component
-public class InMemoryPolicyRepositoryAdapter implements PolicyRepositoryPort {
+public class InMemoryPolicyRepositoryAdapter implements PolicyRepository {
 
-    private final Map<String, PolicyFromStorageDto> repository;
+    private final Multimap<String, PolicyVersionDto> repository;
 
     public InMemoryPolicyRepositoryAdapter() {
-        this.repository = new HashMap<>();
-        this.repository.put("1590N100", new PolicyFromStorageDto("1590N100"));
-        this.repository.put("1590N101", new PolicyFromStorageDto("1590N101"));
-        this.repository.put("1590N102", new PolicyFromStorageDto("1590N102"));
+        final LocalDate now = LocalDate.now();
+        this.repository = ImmutableSetMultimap.<String, PolicyVersionDto>builder()
+                .put("1590N100", new PolicyVersionDto("1590N100", 1, now.minusMonths(11), now.plusMonths(1), ImmutableMap.of(
+                        "KONS", of(
+                                new CoverItemDto("KONS_INTERNISTA", new CoPaymentDto(PERCENT, new BigDecimal("25"))),
+                                new CoverItemDto("KONS_PEDIATRA", new CoPaymentDto(AMOUNT, new BigDecimal("10")))
+                        )
+                ))).build();
     }
 
     @Override
-    public Optional<PolicyFromStorageDto> get(String policyNumber) {
-        PolicyFromStorageDto policyFromStorageDto = repository.get(policyNumber);
-
-        return Optional.ofNullable(policyFromStorageDto);
-    }
-
-    @Override
-    public boolean exists(String policyNumber) {
-        return this.repository.containsKey(policyNumber);
+    public Optional<PolicyVersionDto> lastVersion(String policyNumber) {
+        return repository.get(policyNumber).stream()
+                .max((pv1, pv2) -> Integer.compare(pv1.getVersion(), pv2.getVersion()));
     }
 
 }

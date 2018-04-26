@@ -3,8 +3,8 @@ package pl.altkom.asc.wl.claim.domain;
 import lombok.RequiredArgsConstructor;
 import pl.altkom.asc.wl.claim.domain.port.input.GetPolicyPort;
 import pl.altkom.asc.wl.claim.domain.port.input.PolicyDto;
-import pl.altkom.asc.wl.claim.domain.port.output.PolicyFromStorageDto;
-import pl.altkom.asc.wl.claim.domain.port.output.PolicyRepositoryPort;
+import pl.altkom.asc.wl.claim.domain.port.output.PolicyVersionDto;
+import pl.altkom.asc.wl.claim.domain.port.output.PolicyRepository;
 
 import java.util.Optional;
 
@@ -14,11 +14,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class PolicyService implements GetPolicyPort {
 
-    private final PolicyRepositoryPort policyRepository;
+    private final PolicyRepository policyRepository;
 
     @Override
     public Optional<PolicyDto> get(String policyNumber) {
-        Optional<PolicyFromStorageDto> policyFromStorageDto = policyRepository.get(policyNumber);
+        Optional<PolicyVersionDto> policyFromStorageDto = policyRepository.lastVersion(policyNumber);
         //todo @tdorosz:
         return Optional.of(new PolicyDto());
     }

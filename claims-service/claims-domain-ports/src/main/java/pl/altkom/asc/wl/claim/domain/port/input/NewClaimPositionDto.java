@@ -3,6 +3,7 @@ package pl.altkom.asc.wl.claim.domain.port.input;
 import lombok.Value;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 
 /**
  * @author tdorosz
@@ -11,6 +12,6 @@ import java.math.BigDecimal;
 public class NewClaimPositionDto {
     private String serviceCode;
     private BigDecimal amount;
-    private String currency;
+    private Currency currency;
     private Integer count;
 }
