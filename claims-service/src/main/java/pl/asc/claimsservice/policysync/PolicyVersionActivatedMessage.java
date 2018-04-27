@@ -1,11 +1,11 @@
-package pl.asc.claimsservice.policysynch;
+package pl.asc.claimsservice.policysync;
 
 import lombok.*;
 
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Getter
 @Setter
-@Builder
+//@Builder
 public class PolicyVersionActivatedMessage {
 }
