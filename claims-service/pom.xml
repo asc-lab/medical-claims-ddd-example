@@ -96,6 +96,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>de.triology.cb</groupId>
+            <artifactId>command-bus-spring</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- START TEST DEPENDENCIES -->
         <!-- Mandatory dependencies for using Spock -->
         <dependency>
