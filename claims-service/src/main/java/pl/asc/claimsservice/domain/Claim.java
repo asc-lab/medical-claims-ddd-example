@@ -20,8 +20,8 @@ public class Claim {
     private String number; //make VO
 
     @ManyToOne()
-    @JoinColumn(name = "POLICY_ID")
-    private Policy policy;
+    @JoinColumn(name = "POLICY_VERSION_ID")
+    private PolicyVersion policyVersion;
 
     private LocalDate eventDate;
 
@@ -32,20 +32,20 @@ public class Claim {
 
     public Claim(String number, LocalDate eventDate, Policy policy){
         this.number = number;
-        this.policy = policy;
+        this.policyVersion = policy.versions().validAtDate(eventDate);
         this.eventDate = eventDate;
         this.status = ClaimStatus.IN_EVALUATION;
         this.items = new HashSet<>();
     }
 
 
-    public void addItem(String serviceCode, BigDecimal qt, BigDecimal price) {
-        ClaimItem item = new ClaimItem(null, this, serviceCode, qt, price);
+    void addItem(String serviceCode, BigDecimal qt, BigDecimal price) {
+        ClaimItem item = new ClaimItem(null, this, serviceCode, qt, price, null);
         items.add(item);
     }
 
     public void evaluate() {
-        if (!policy.covers(this)){
+        if (!policyVersion.covers(this)){
             reject();
             return;
         }

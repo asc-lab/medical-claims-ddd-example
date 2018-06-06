@@ -18,7 +18,7 @@ public class ClaimApi  {
     //submit
     @PostMapping("/submit")
     public void submit(){
-        SubmitClaimResult submitResult = bus.execute(new SubmitClaimCommand());
+        //SubmitClaimResult submitResult = bus.execute(new SubmitClaimCommand());
     }
 
     //accept

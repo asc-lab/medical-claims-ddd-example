@@ -26,4 +26,7 @@ public class ClaimItem {
 
     private BigDecimal price;
 
+    @Embedded
+    private ClaimItemEvaluation evaluation;
+
 }

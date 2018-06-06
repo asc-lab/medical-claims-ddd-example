@@ -1,7 +1,6 @@
-package pl.asc.claimsservice.adapters;
+package pl.asc.claimsservice.domain;
 
 import org.springframework.stereotype.Component;
-import pl.asc.claimsservice.domain.ClaimNumberGenerator;
 
 import java.util.UUID;
 

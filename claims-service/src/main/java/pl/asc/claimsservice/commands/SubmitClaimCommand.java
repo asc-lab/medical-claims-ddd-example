@@ -13,6 +13,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 public class SubmitClaimCommand implements Command<SubmitClaimResult> {
 
     @NotNull

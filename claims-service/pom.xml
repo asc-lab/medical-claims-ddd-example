@@ -107,6 +107,11 @@
         <!-- START TEST DEPENDENCIES -->
         <!-- Mandatory dependencies for using Spock -->
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <version>${spock-core.version}</version>
