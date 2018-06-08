@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.commands;
+package pl.asc.claimsservice.commands.submitclaim;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

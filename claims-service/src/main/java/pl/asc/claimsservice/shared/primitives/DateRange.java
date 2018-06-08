@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.shared;
+package pl.asc.claimsservice.shared.primitives;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

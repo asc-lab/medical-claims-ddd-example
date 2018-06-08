@@ -1,11 +1,11 @@
-package pl.asc.claimsservice.commands;
+package pl.asc.claimsservice.commands.submitclaim;
 
 import de.triology.cb.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.asc.claimsservice.domain.*;
-import pl.asc.claimsservice.shared.BusinessException;
+import pl.asc.claimsservice.shared.exceptions.BusinessException;
 
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, Sub
         Optional<Policy> policy = policyRepository.findByNumber(submitClaimCommand.getPolicyNumber());
 
         if (!policy.isPresent()) {
-            throw new BusinessException();//POLICY NOT FOUND
+            throw new BusinessException("POLICY NOT FOUND");
         }
 
         Claim claim = ClaimFactory

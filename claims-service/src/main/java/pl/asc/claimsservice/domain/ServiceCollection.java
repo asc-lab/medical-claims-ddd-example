@@ -16,4 +16,17 @@ public class ServiceCollection {
     }
 
 
+    boolean hasService(String serviceCode) {
+        return services
+                .stream()
+                .anyMatch(s -> s.getCode().equals(serviceCode));
+    }
+
+    public Service withCode(String serviceCode) {
+        return services
+                .stream()
+                .filter(s -> s.getCode().equals((serviceCode)))
+                .findFirst()
+                .get();
+    }
 }

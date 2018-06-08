@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.asc.claimsservice.shared.DateRange;
+import pl.asc.claimsservice.shared.primitives.DateRange;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -58,5 +58,13 @@ public class PolicyVersion {
 
     CoverCollection covers() {
         return new CoverCollection(this, covers);
+    }
+
+    CoPayment getCoPaymentFor(String serviceCode) {
+        return covers().getCoPaymentForService(serviceCode);
+    }
+
+    Limit getLimitFor(String serviceCode) {
+        return covers().getLimitForService(serviceCode);
     }
 }

@@ -1,5 +1,7 @@
 package pl.asc.claimsservice.commands
 
+import pl.asc.claimsservice.commands.submitclaim.SubmitClaimCommand
+import pl.asc.claimsservice.commands.submitclaim.SubmitClaimHandler
 import pl.asc.claimsservice.domain.Claim
 import pl.asc.claimsservice.domain.ClaimNumberGenerator
 import pl.asc.claimsservice.domain.ClaimRepository
@@ -32,7 +34,7 @@ class SubmitClaimCommandSpec extends Specification {
             .eventDate(LocalDate.of(2018,3,1))
             .medicalServiceProviderCode("LUXMED 001")
             .items([
-                SubmitClaimCommand.Item.builder().serviceCode("").quantity(1.0).price(20.0).build()
+                SubmitClaimCommand.Item.builder().serviceCode("KONS_INTERNISTA").quantity(1.0).price(20.0).build()
             ] as Set)
             .build()
 

@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.commands;
+package pl.asc.claimsservice.commands.submitclaim;
 
 import de.triology.cb.Command;
 import lombok.Builder;

@@ -2,6 +2,8 @@ package pl.asc.claimsservice.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
+import pl.asc.claimsservice.shared.primitives.Quantity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,7 +27,10 @@ public class Claim {
 
     private LocalDate eventDate;
 
+    @Enumerated(EnumType.STRING)
     private ClaimStatus status;
+
+    private ClaimEvaluation evaluation;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "claim")
     private Set<ClaimItem> items;
@@ -35,13 +40,8 @@ public class Claim {
         this.policyVersion = policy.versions().validAtDate(eventDate);
         this.eventDate = eventDate;
         this.status = ClaimStatus.IN_EVALUATION;
+        this.evaluation = null;
         this.items = new HashSet<>();
-    }
-
-
-    void addItem(String serviceCode, BigDecimal qt, BigDecimal price) {
-        ClaimItem item = new ClaimItem(null, this, serviceCode, qt, price, null);
-        items.add(item);
     }
 
     public void evaluate() {
@@ -49,14 +49,20 @@ public class Claim {
             reject();
             return;
         }
-        
+
+        items.forEach(i -> i.evaluate());
+
+        evaluation = ClaimItemEvaluation.of(this.items);
+        status = ClaimStatus.EVALUATED;
+    }
+
+    void addItem(String serviceCode, Quantity qt, MonetaryAmount price) {
+        ClaimItem item = new ClaimItem(null, this, serviceCode, qt, price, null);
+        items.add(item);
     }
 
     private void reject() {
-        //all money paid by customer
-    }
-
-    class ClaimEvaluationResult {
-        //??
+        items.forEach(i -> i.reject());
+        evaluation = ClaimItemEvaluation.of(this.items);
     }
 }

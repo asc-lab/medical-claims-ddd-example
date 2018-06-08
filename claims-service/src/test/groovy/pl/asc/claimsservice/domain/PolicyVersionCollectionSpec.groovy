@@ -36,8 +36,8 @@ class PolicyVersionCollectionSpec extends Specification {
         verOnJanuary.versionNumber == 1
         verOnJuly.versionNumber == 2
         verOnDecember.versionNumber == 2
-        verBeforeStart == 2
-        verAfterEnd == 2
+        verBeforeStart.versionNumber == 2
+        verAfterEnd.versionNumber == 2
     }
 
     private PolicyVersionCollection versions(){

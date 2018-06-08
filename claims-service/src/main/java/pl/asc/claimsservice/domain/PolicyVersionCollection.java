@@ -1,11 +1,12 @@
 package pl.asc.claimsservice.domain;
 
 import lombok.RequiredArgsConstructor;
-import pl.asc.claimsservice.shared.DateRange;
+import pl.asc.claimsservice.shared.primitives.DateRange;
 
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -22,13 +23,23 @@ class PolicyVersionCollection {
     }
 
     PolicyVersion validAtDate(LocalDate theDate) {
-        return versions
+        Optional<PolicyVersion> version = versions
                 .stream()
                 .sorted(Comparators.BY_VERSION_NUMBER_DESC)
                 .filter(v -> v.isValidAt(theDate))
+                .findFirst();
+
+        return version.isPresent() ? version.get() : lastVersion();
+    }
+
+    PolicyVersion lastVersion() {
+        return versions
+                .stream()
+                .sorted(Comparators.BY_VERSION_NUMBER_DESC)
                 .findFirst()
                 .get();
     }
+
 
     PolicyVersion add(
             Long versionNumber,

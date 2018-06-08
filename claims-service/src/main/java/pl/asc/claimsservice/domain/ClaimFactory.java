@@ -1,6 +1,8 @@
 package pl.asc.claimsservice.domain;
 
-import pl.asc.claimsservice.commands.SubmitClaimCommand;
+import pl.asc.claimsservice.commands.submitclaim.SubmitClaimCommand;
+import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
+import pl.asc.claimsservice.shared.primitives.Quantity;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -37,7 +39,7 @@ public class ClaimFactory {
 
     public Claim create() {
         Claim claim = new Claim(claimNumber, eventDate, policy);
-        this.items.forEach(i -> claim.addItem(i.getServiceCode(), i.getQuantity(), i.getPrice()));
+        this.items.forEach(i -> claim.addItem(i.getServiceCode(), Quantity.of(i.getQuantity()), MonetaryAmount.from(i.getPrice())));
         return claim;
     }
 }
