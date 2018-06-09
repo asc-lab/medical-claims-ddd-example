@@ -49,12 +49,19 @@ public class ClaimItem {
         }
 
         //apply coPayment
-        CoPayment coPayment = claim.getPolicyVersion().getCoPaymentFor(serviceCode);
-        evaluation.applyCoPayment(coPayment.calculate(this));
+        MonetaryAmount coPayment = claim.getPolicyVersion().getCoPaymentFor(serviceCode).calculate(this.cost());
+        evaluation.applyCoPayment(coPayment);
 
         //apply limit
         Limit limit = claim.getPolicyVersion().getLimitFor(serviceCode);
-        evaluation.applyLimit(limit.calculate(this));
+        LimitConsumptionContainer.Consumed consumed = claim
+                .getPolicyVersion()
+                .getPolicy()
+                .consumptionContainers()
+                .getConsumptionFor(claim.getEventDate(), serviceCode, limit.getPeriod());
+        evaluation.applyLimit(limit.calculate(qt, price, coPayment, consumed.getQuantity(), consumed.getAmount()));
+
+        claim.getPolicyVersion().getPolicy().consumptionContainers().registerConsumption(this);
     }
 
     void reject() {

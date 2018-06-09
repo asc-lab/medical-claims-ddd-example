@@ -27,7 +27,7 @@ class SubmitClaimCommandSpec extends Specification {
             claimNumberGenerator
     )
 
-    void "cannot register claim if policy does not exist"() {
+    void "cannot register claim"() {
         given: "submit claim command"
         def cmd = SubmitClaimCommand.builder()
             .policyNumber("P1212121")

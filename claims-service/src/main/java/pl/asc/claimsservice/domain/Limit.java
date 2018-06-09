@@ -44,11 +44,11 @@ public class Limit {
         return new Limit(null,null,null);
     }
 
-    MonetaryAmount calculate(ClaimItem claimItem) {
-        MonetaryAmount priceAfterCoPayment = claimItem.getPrice()
-                .subtract(claimItem.getEvaluation().getPaidByCustomer().divide(claimItem.getQt()));
+    MonetaryAmount calculate(Quantity qt, MonetaryAmount price, MonetaryAmount coPayment, Quantity consumedQt, MonetaryAmount consumedAmount) {
+        MonetaryAmount priceAfterCoPayment = price
+                .subtract(coPayment.divide(qt));
 
-        Quantity qtToPayByInsurer = claimItem.getQt();
+        Quantity qtToPayByInsurer = qt;
 
         if (maxQuantity!=null) {
             qtToPayByInsurer = Quantity.min(maxQuantity, qtToPayByInsurer);

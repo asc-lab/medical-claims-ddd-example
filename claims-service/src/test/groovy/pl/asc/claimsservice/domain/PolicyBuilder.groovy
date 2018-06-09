@@ -22,13 +22,13 @@ class PolicyBuilder {
 
         Cover consultationOne = versionOne.covers().add("KONS")
         consultationOne.services().add(
-                "KONS_INTERNISTA", CoPayment.percent(Percent.of(0.25)), Limit.amountForPolicyYear(MonetaryAmount.from(100)))
+                "KONS_INTERNISTA", CoPayment.percent(Percent.of(25)), Limit.amountForPolicyYear(MonetaryAmount.from(100)))
         consultationOne.services().add(
                 "KONS_PEDIATRA", CoPayment.amount(MonetaryAmount.from(2.0)), Limit.amountAndQuantityForPolicyYear(MonetaryAmount.from(100), Quantity.of(20)))
 
         Cover labOne = versionOne.covers().add("LAB")
         labOne.services().add(
-                "LAB_KREW_OB", CoPayment.percent(Percent.of(0.10)), Limit.amountAndQuantityForPolicyYear(MonetaryAmount.from(50), Quantity.of(5)))
+                "LAB_KREW_OB", CoPayment.percent(Percent.of(10)), Limit.amountAndQuantityForPolicyYear(MonetaryAmount.from(50), Quantity.of(5)))
         labOne.services().add(
                 "LAB_HDL", CoPayment.amount(MonetaryAmount.from(2.0)), Limit.amountAndQuantityForPolicyYear(MonetaryAmount.from(28), Quantity.of(2)))
 
@@ -42,13 +42,13 @@ class PolicyBuilder {
 
         Cover consultationTwo = versionTwo.covers().add("KONS")
         consultationTwo.services().add(
-                "KONS_INTERNISTA", CoPayment.percent(Percent.of(0.25)), Limit.amountForPolicyYear(MonetaryAmount.from(100)))
+                "KONS_INTERNISTA", CoPayment.percent(Percent.of(25)), Limit.amountForPolicyYear(MonetaryAmount.from(100)))
         consultationTwo.services().add(
                 "KONS_PEDIATRA", CoPayment.amount(MonetaryAmount.from(2.0)), Limit.amountAndQuantityForPolicyYear(MonetaryAmount.from(100), Quantity.of(20)))
 
         Cover labTwo = versionTwo.covers().add("LAB")
         labTwo.services().add(
-                "LAB_KREW_OB", CoPayment.percent(Percent.of(0.10)), Limit.amountAndQuantityForPolicyYear(MonetaryAmount.from(50), Quantity.of(5)))
+                "LAB_KREW_OB", CoPayment.percent(Percent.of(10)), Limit.amountAndQuantityForPolicyYear(MonetaryAmount.from(50), Quantity.of(5)))
         labTwo.services().add(
                 "LAB_HDL", CoPayment.amount(MonetaryAmount.from(2.0)), Limit.amountAndQuantityForPolicyYear(MonetaryAmount.from(28), Quantity.of(2)))
 

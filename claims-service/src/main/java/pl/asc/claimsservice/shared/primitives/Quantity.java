@@ -19,6 +19,10 @@ public class Quantity {
         return new Quantity(value);
     }
 
+    public static Quantity zero() {
+        return new Quantity(BigDecimal.ZERO);
+    }
+
     public MonetaryAmount multiply(MonetaryAmount amount) {
         return amount.multiply(value);
     }
@@ -29,5 +33,9 @@ public class Quantity {
 
     public static Quantity max(Quantity q1, Quantity q2) {
         return q1.value.compareTo(q2.value) >= 1 ? q1 : q2;
+    }
+
+    public Quantity add(Quantity qt){
+        return new Quantity(qt.value.add(value));
     }
 }

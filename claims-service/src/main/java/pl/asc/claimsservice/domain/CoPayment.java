@@ -36,13 +36,13 @@ public class CoPayment {
 
     static CoPayment empty() { return new CoPayment(MonetaryAmount.zero(), null); }
 
-    public MonetaryAmount calculate(ClaimItem claimItem) {
+    public MonetaryAmount calculate(MonetaryAmount cost) {
         if (percent!=null) {
-            return claimItem.cost().multiply(percent);
+            return cost.multiply(percent);
         }
 
         if (amount!=null) {
-            return min(claimItem.cost(), amount);
+            return min(cost, amount);
         }
 
         return MonetaryAmount.zero();
