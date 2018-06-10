@@ -4,6 +4,7 @@ import lombok.*;
 import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
 import pl.asc.claimsservice.shared.primitives.Quantity;
 
+import javax.lang.model.element.QualifiedNameable;
 import javax.persistence.*;
 
 
@@ -45,19 +46,27 @@ public class Limit {
     }
 
     MonetaryAmount calculate(Quantity qt, MonetaryAmount price, MonetaryAmount coPayment, Quantity consumedQt, MonetaryAmount consumedAmount) {
+        Quantity limitQt = maxQuantity!=null ?
+                Quantity.max(maxQuantity.subtract(consumedQt), Quantity.zero())
+                : null;
+
+        MonetaryAmount limitAmount = maxAmount!=null ?
+                MonetaryAmount.max(maxAmount.subtract(consumedAmount), MonetaryAmount.zero())
+                : null;
+
         MonetaryAmount priceAfterCoPayment = price
                 .subtract(coPayment.divide(qt));
 
         Quantity qtToPayByInsurer = qt;
 
-        if (maxQuantity!=null) {
-            qtToPayByInsurer = Quantity.min(maxQuantity, qtToPayByInsurer);
+        if (limitQt!=null) {
+            qtToPayByInsurer = Quantity.min(limitQt, qtToPayByInsurer);
         }
 
         MonetaryAmount amtToPayByInsurer = qtToPayByInsurer.multiply(priceAfterCoPayment);
 
-        if (maxAmount!=null) {
-            amtToPayByInsurer = MonetaryAmount.min(maxAmount, amtToPayByInsurer);
+        if (limitAmount!=null) {
+            amtToPayByInsurer = MonetaryAmount.min(limitAmount, amtToPayByInsurer);
         }
 
         return amtToPayByInsurer;

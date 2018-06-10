@@ -38,4 +38,6 @@ public class Quantity {
     public Quantity add(Quantity qt){
         return new Quantity(qt.value.add(value));
     }
+
+    public Quantity subtract(Quantity qt) { return new Quantity(value.subtract(qt.value)); }
 }
