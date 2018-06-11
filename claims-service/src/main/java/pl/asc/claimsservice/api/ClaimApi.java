@@ -3,12 +3,11 @@ package pl.asc.claimsservice.api;
 import de.triology.cb.CommandBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.asc.claimsservice.commands.submitclaim.SubmitClaimCommand;
 import pl.asc.claimsservice.commands.submitclaim.SubmitClaimResult;
+import pl.asc.claimsservice.queries.getclaim.GetClaimQuery;
+import pl.asc.claimsservice.queries.getclaim.GetClaimResult;
 
 @RestController
 @RequestMapping("/api/claim")
@@ -28,6 +27,11 @@ public class ClaimApi  {
     //reject
 
     //get
+    @GetMapping("/{claimNumber}")
+    public GetClaimResult get(@PathVariable(name = "claimNumber") String claimNumber) {
+        GetClaimResult getResult = bus.execute(new GetClaimQuery(claimNumber));
+        return getResult;
+    }
 
     //search
 }
