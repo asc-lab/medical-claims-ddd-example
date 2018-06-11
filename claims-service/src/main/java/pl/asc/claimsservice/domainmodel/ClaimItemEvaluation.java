@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.domain;
+package pl.asc.claimsservice.domainmodel;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Set;
 
 @Embeddable

@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.domain;
+package pl.asc.claimsservice.domainmodel;
 
 import pl.asc.claimsservice.commands.registerpolicy.dto.*;
 import pl.asc.claimsservice.shared.primitives.DateRange;

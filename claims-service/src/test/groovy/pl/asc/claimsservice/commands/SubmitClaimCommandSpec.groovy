@@ -2,12 +2,12 @@ package pl.asc.claimsservice.commands
 
 import pl.asc.claimsservice.commands.submitclaim.SubmitClaimCommand
 import pl.asc.claimsservice.commands.submitclaim.SubmitClaimHandler
-import pl.asc.claimsservice.domain.Claim
-import pl.asc.claimsservice.domain.ClaimNumberGenerator
-import pl.asc.claimsservice.domain.ClaimRepository
-import pl.asc.claimsservice.domain.PolicyBuilder
-import pl.asc.claimsservice.domain.PolicyRepository
-import pl.asc.claimsservice.domain.UuidClaimNumberGenerator
+import pl.asc.claimsservice.domainmodel.Claim
+import pl.asc.claimsservice.domainmodel.ClaimNumberGenerator
+import pl.asc.claimsservice.domainmodel.ClaimRepository
+import pl.asc.claimsservice.domainmodel.PolicyBuilder
+import pl.asc.claimsservice.domainmodel.PolicyRepository
+import pl.asc.claimsservice.domainmodel.UuidClaimNumberGenerator
 import spock.lang.Specification
 
 import java.time.LocalDate

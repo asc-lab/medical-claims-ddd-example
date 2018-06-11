@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.domain;
+package pl.asc.claimsservice.domainmodel;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,10 +6,11 @@ import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
 import pl.asc.claimsservice.shared.primitives.Quantity;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkState;
 
 @Entity
 @NoArgsConstructor
@@ -45,6 +46,8 @@ public class Claim {
     }
 
     public void evaluate() {
+        checkState(status.isEditable());
+
         if (!policyVersion.covers(this)){
             reject();
             return;
@@ -57,6 +60,7 @@ public class Claim {
     }
 
     void addItem(String serviceCode, Quantity qt, MonetaryAmount price) {
+        checkState(status.isEditable());
         ClaimItem item = new ClaimItem(null, this, serviceCode, qt, price, null);
         items.add(item);
     }

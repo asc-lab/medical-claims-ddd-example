@@ -4,9 +4,9 @@ import de.triology.cb.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.asc.claimsservice.domain.Policy;
-import pl.asc.claimsservice.domain.PolicyFactory;
-import pl.asc.claimsservice.domain.PolicyRepository;
+import pl.asc.claimsservice.domainmodel.Policy;
+import pl.asc.claimsservice.domainmodel.PolicyFactory;
+import pl.asc.claimsservice.domainmodel.PolicyRepository;
 
 import java.util.Optional;
 

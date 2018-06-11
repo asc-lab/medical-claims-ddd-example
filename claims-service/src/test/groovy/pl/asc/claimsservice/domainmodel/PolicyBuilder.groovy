@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.domain
+package pl.asc.claimsservice.domainmodel
 
 import pl.asc.claimsservice.shared.primitives.DateRange
 import pl.asc.claimsservice.shared.primitives.MonetaryAmount

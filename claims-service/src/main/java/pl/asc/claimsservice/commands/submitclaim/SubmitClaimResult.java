@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.asc.claimsservice.domain.Claim;
+import pl.asc.claimsservice.domainmodel.Claim;
 
 @NoArgsConstructor
 @AllArgsConstructor

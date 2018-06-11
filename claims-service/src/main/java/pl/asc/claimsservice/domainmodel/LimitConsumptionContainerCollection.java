@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.domain;
+package pl.asc.claimsservice.domainmodel;
 
 import lombok.RequiredArgsConstructor;
 import pl.asc.claimsservice.shared.primitives.MonetaryAmount;

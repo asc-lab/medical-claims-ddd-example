@@ -4,7 +4,7 @@ import de.triology.cb.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.asc.claimsservice.domain.*;
+import pl.asc.claimsservice.domainmodel.*;
 import pl.asc.claimsservice.shared.exceptions.BusinessException;
 
 import java.util.Optional;

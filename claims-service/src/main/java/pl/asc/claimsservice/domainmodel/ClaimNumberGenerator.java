@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.domain;
+package pl.asc.claimsservice.domainmodel;
 
 public interface ClaimNumberGenerator {
     String generateClaimNumber();
