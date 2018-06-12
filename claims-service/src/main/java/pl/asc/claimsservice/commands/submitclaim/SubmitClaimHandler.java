@@ -2,6 +2,7 @@ package pl.asc.claimsservice.commands.submitclaim;
 
 import de.triology.cb.CommandHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.asc.claimsservice.domainmodel.*;
@@ -16,6 +17,7 @@ public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, Sub
     private final PolicyRepository policyRepository;
     private final ClaimRepository claimRepository;
     private final ClaimNumberGenerator claimNumberGenerator;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public SubmitClaimResult handle(SubmitClaimCommand submitClaimCommand) {
@@ -35,6 +37,8 @@ public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, Sub
         claim.evaluate();
 
         claimRepository.save(claim);
+
+        eventPublisher.publishEvent(new ClaimCreatedEvent(this, claim));
 
         return SubmitClaimResult.success(claim);
     }

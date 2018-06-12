@@ -1,9 +1,7 @@
 package pl.asc.claimsservice.commands.registerpolicy;
 
 import de.triology.cb.Command;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.asc.claimsservice.commands.registerpolicy.dto.PolicyVersionDto;
 
 import javax.validation.constraints.NotNull;
@@ -11,6 +9,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterPolicyCommand implements Command<RegisterPolicyResult> {
     @NotNull
     private PolicyVersionDto policyVersion;

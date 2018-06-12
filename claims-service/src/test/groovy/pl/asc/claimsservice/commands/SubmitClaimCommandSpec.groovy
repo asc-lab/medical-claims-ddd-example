@@ -1,5 +1,6 @@
 package pl.asc.claimsservice.commands
 
+import org.springframework.context.ApplicationEventPublisher
 import pl.asc.claimsservice.commands.submitclaim.SubmitClaimCommand
 import pl.asc.claimsservice.commands.submitclaim.SubmitClaimHandler
 import pl.asc.claimsservice.domainmodel.Claim
@@ -18,13 +19,15 @@ class SubmitClaimCommandSpec extends Specification {
     PolicyRepository policyRepository = Stub(PolicyRepository)
     ClaimRepository claimRepository = Stub(ClaimRepository)
     ClaimNumberGenerator claimNumberGenerator = new UuidClaimNumberGenerator()
+    ApplicationEventPublisher eventPublisher = Stub(ApplicationEventPublisher)
 
     def inMemoDb = new HashMap<String, Claim>()
 
     SubmitClaimHandler submitClaimHandler = new SubmitClaimHandler(
             policyRepository,
             claimRepository,
-            claimNumberGenerator
+            claimNumberGenerator,
+            eventPublisher
     )
 
     void "cannot register claim"() {

@@ -15,8 +15,8 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class RegisterPolicyHandler implements CommandHandler<RegisterPolicyResult, RegisterPolicyCommand> {
-    private PolicyRepository policyRepository;
-    private PolicyFactory policyFactory;
+    private final PolicyRepository policyRepository;
+    private final PolicyFactory policyFactory = new PolicyFactory();
 
     @Override
     public RegisterPolicyResult handle(RegisterPolicyCommand registerPolicyCommand) {

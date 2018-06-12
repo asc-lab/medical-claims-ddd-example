@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.asc.claimsservice.commands.submitclaim.SubmitClaimCommand;
 import pl.asc.claimsservice.commands.submitclaim.SubmitClaimResult;
+import pl.asc.claimsservice.queries.findclaim.FindClaimQuery;
+import pl.asc.claimsservice.queries.findclaim.FindClaimQueryResult;
 import pl.asc.claimsservice.queries.getclaim.GetClaimQuery;
 import pl.asc.claimsservice.queries.getclaim.GetClaimResult;
 
@@ -34,4 +36,8 @@ public class ClaimApi  {
     }
 
     //search
+    @GetMapping("/search")
+    public FindClaimQueryResult find() {
+        return bus.execute(new FindClaimQuery());
+    }
 }

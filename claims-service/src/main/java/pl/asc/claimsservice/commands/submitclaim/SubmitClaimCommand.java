@@ -1,9 +1,7 @@
 package pl.asc.claimsservice.commands.submitclaim;
 
 import de.triology.cb.Command;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -14,6 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SubmitClaimCommand implements Command<SubmitClaimResult> {
 
     @NotNull
@@ -28,6 +28,8 @@ public class SubmitClaimCommand implements Command<SubmitClaimResult> {
     @Getter
     @Setter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Item {
         private String serviceCode;
         private BigDecimal quantity;

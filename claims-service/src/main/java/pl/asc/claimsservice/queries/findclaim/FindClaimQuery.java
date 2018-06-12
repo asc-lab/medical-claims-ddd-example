@@ -1,8 +1,6 @@
 package pl.asc.claimsservice.queries.findclaim;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.asc.claimsservice.shared.cqs.Query;
 
 import java.math.BigDecimal;
@@ -11,6 +9,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FindClaimQuery implements Query<FindClaimQueryResult> {
     private String claimNumber;
     private String statusCode;
