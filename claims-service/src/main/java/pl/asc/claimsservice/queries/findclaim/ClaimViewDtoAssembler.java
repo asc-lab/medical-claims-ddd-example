@@ -6,11 +6,11 @@ import pl.asc.claimsservice.queries.findclaim.dto.ClaimViewDto;
 import pl.asc.claimsservice.readmodel.ClaimView;
 
 @AllArgsConstructor
-public class ClaimViewDtoAssember {
+public class ClaimViewDtoAssembler {
     private ClaimView claim;
 
-    static ClaimViewDtoAssember from(ClaimView claim) {
-        return new ClaimViewDtoAssember(claim);
+    static ClaimViewDtoAssembler from(ClaimView claim) {
+        return new ClaimViewDtoAssembler(claim);
     }
 
     ClaimViewDto assembleDto() {

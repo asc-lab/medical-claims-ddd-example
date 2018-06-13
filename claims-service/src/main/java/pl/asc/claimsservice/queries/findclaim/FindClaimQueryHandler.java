@@ -21,7 +21,7 @@ public class FindClaimQueryHandler implements QueryHandler<FindClaimQueryResult,
         List<ClaimView> claims = claimViewRepository.findAll();
 
         return new FindClaimQueryResult(
-                claims.stream().map(c->ClaimViewDtoAssember.from(c).assembleDto()).collect(Collectors.toList())
+                claims.stream().map(c->ClaimViewDtoAssembler.from(c).assembleDto()).collect(Collectors.toList())
         );
     }
 
