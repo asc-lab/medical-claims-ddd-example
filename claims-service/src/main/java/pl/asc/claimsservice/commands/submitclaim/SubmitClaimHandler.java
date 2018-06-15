@@ -1,11 +1,11 @@
 package pl.asc.claimsservice.commands.submitclaim;
 
-import de.triology.cb.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.asc.claimsservice.domainmodel.*;
+import pl.asc.claimsservice.shared.cqs.CommandHandler;
 import pl.asc.claimsservice.shared.exceptions.BusinessException;
 
 import java.util.Optional;

@@ -1,7 +1,5 @@
 package pl.asc.claimsservice.shared.cqs;
 
-import de.triology.cb.CommandHandler;
-
-public interface QueryHandler<R, C extends Query<R>> extends CommandHandler<R,C> {
+public interface QueryHandler<R, C extends Query<R>> {
     R handle(C var1);
 }

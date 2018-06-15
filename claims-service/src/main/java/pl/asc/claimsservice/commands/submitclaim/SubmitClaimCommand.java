@@ -1,8 +1,8 @@
 package pl.asc.claimsservice.commands.submitclaim;
 
-import de.triology.cb.Command;
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.asc.claimsservice.shared.cqs.Command;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;

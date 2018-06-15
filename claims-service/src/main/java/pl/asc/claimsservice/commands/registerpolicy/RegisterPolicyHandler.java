@@ -1,12 +1,12 @@
 package pl.asc.claimsservice.commands.registerpolicy;
 
-import de.triology.cb.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.asc.claimsservice.domainmodel.Policy;
 import pl.asc.claimsservice.domainmodel.PolicyFactory;
 import pl.asc.claimsservice.domainmodel.PolicyRepository;
+import pl.asc.claimsservice.shared.cqs.CommandHandler;
 
 import java.util.Optional;
 

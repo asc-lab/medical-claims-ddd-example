@@ -1,10 +1,6 @@
 package pl.asc.claimsservice;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import de.triology.cb.CommandBus;
-import de.triology.cb.spring.Registry;
-import de.triology.cb.spring.SpringCommandBus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +9,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import pl.asc.claimsservice.commands.registerpolicy.RegisterPolicyCommand;
 import pl.asc.claimsservice.commands.registerpolicy.dto.*;
+import pl.asc.claimsservice.shared.cqs.CommandBus;
+import pl.asc.claimsservice.shared.cqs.Registry;
+import pl.asc.claimsservice.shared.cqs.SpringCommandBus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -65,7 +64,7 @@ public class ClaimsServiceApplication {
 					)
 			);
 
-			bus.execute(new RegisterPolicyCommand(pv));
+			bus.executeCommand(new RegisterPolicyCommand(pv));
 
 			log.info("Data init succeeded");
 		};

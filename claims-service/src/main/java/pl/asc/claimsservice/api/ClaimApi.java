@@ -1,6 +1,5 @@
 package pl.asc.claimsservice.api;
 
-import de.triology.cb.CommandBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +9,7 @@ import pl.asc.claimsservice.queries.findclaim.FindClaimQuery;
 import pl.asc.claimsservice.queries.findclaim.FindClaimQueryResult;
 import pl.asc.claimsservice.queries.getclaim.GetClaimQuery;
 import pl.asc.claimsservice.queries.getclaim.GetClaimResult;
+import pl.asc.claimsservice.shared.cqs.CommandBus;
 
 @RestController
 @RequestMapping("/api/claim")
@@ -20,7 +20,7 @@ public class ClaimApi  {
     //submit
     @PostMapping("/submit")
     public SubmitClaimResult submit(@RequestBody SubmitClaimCommand cmd){
-        SubmitClaimResult submitResult = bus.execute(cmd);
+        SubmitClaimResult submitResult = bus.executeCommand(cmd);
         return submitResult;
     }
 
@@ -31,13 +31,13 @@ public class ClaimApi  {
     //get
     @GetMapping("/{claimNumber}")
     public GetClaimResult get(@PathVariable(name = "claimNumber") String claimNumber) {
-        GetClaimResult getResult = bus.execute(new GetClaimQuery(claimNumber));
+        GetClaimResult getResult = bus.executeQuery(new GetClaimQuery(claimNumber));
         return getResult;
     }
 
     //search
     @GetMapping("/search")
     public FindClaimQueryResult find() {
-        return bus.execute(new FindClaimQuery());
+        return bus.executeQuery(new FindClaimQuery());
     }
 }

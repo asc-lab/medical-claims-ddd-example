@@ -1,8 +1,8 @@
 package pl.asc.claimsservice.commands.registerpolicy;
 
-import de.triology.cb.Command;
 import lombok.*;
 import pl.asc.claimsservice.commands.registerpolicy.dto.PolicyVersionDto;
+import pl.asc.claimsservice.shared.cqs.Command;
 
 import javax.validation.constraints.NotNull;
 
