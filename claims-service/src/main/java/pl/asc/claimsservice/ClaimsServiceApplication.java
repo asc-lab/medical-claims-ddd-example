@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import pl.asc.claimsservice.commands.registerpolicy.RegisterPolicyCommand;
@@ -18,6 +20,7 @@ import java.time.LocalDate;
 
 @Slf4j
 @SpringBootApplication
+@EnableBinding(Sink.class)
 public class ClaimsServiceApplication {
 
 	public static void main(String[] args) {

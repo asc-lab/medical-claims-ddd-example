@@ -6,7 +6,7 @@ import pl.asc.claimsservice.commands.submitclaim.SubmitClaimHandler
 import pl.asc.claimsservice.domainmodel.Claim
 import pl.asc.claimsservice.domainmodel.ClaimNumberGenerator
 import pl.asc.claimsservice.domainmodel.ClaimRepository
-import pl.asc.claimsservice.domainmodel.PolicyBuilder
+import pl.asc.claimsservice.builders.PolicyBuilder
 import pl.asc.claimsservice.domainmodel.PolicyRepository
 import pl.asc.claimsservice.domainmodel.UuidClaimNumberGenerator
 import spock.lang.Specification

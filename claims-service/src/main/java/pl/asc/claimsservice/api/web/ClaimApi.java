@@ -1,4 +1,4 @@
-package pl.asc.claimsservice.api;
+package pl.asc.claimsservice.api.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

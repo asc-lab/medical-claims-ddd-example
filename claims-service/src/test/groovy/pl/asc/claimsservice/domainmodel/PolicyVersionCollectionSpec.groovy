@@ -1,5 +1,6 @@
 package pl.asc.claimsservice.domainmodel
 
+import pl.asc.claimsservice.builders.PolicyBuilder
 import spock.lang.Specification
 
 import java.time.LocalDate
