@@ -7,6 +7,7 @@ import pl.asc.claimsservice.domainmodel.Policy;
 import pl.asc.claimsservice.domainmodel.PolicyFactory;
 import pl.asc.claimsservice.domainmodel.PolicyRepository;
 import pl.asc.claimsservice.shared.cqs.CommandHandler;
+import pl.asc.claimsservice.shared.exceptions.BusinessException;
 
 import java.util.Optional;
 
@@ -20,18 +21,25 @@ public class RegisterPolicyHandler implements CommandHandler<RegisterPolicyResul
 
     @Override
     public RegisterPolicyResult handle(RegisterPolicyCommand registerPolicyCommand) {
-        //look up policy
         Optional<Policy> policy = policyRepository.findByNumber(registerPolicyCommand.getPolicyVersion().getPolicyNumber());
 
         if (policy.isPresent()) {
-            //if found add version
-            policyFactory.createVersion(registerPolicyCommand.getPolicyVersion(), policy.get());
+            addNewVersionToExistingPolicy(registerPolicyCommand, policy.get());
+
         } else {
-            //else construct with version
-            Policy newPolicy = policyFactory.create(registerPolicyCommand.getPolicyVersion());
-            policyRepository.save(newPolicy);
+            createNewPolicyWithFirstVersion(registerPolicyCommand);
+
         }
 
         return new RegisterPolicyResult();
+    }
+
+    private void createNewPolicyWithFirstVersion(RegisterPolicyCommand registerPolicyCommand) {
+        Policy newPolicy = policyFactory.create(registerPolicyCommand.getPolicyVersion());
+        policyRepository.save(newPolicy);
+    }
+
+    private void addNewVersionToExistingPolicy(RegisterPolicyCommand registerPolicyCommand, Policy policy) {
+        policyFactory.createVersion(registerPolicyCommand.getPolicyVersion(), policy);
     }
 }

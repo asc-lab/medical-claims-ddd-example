@@ -70,31 +70,35 @@ class PolicyBuilder {
         return policy
     }
 
-    PolicyVersionDto buildDto(){
+    PolicyVersionDto buildDto(String number, Long version){
         PolicyVersionDto pv = PolicyVersionDto.builder()
-        .policyNumber("P1")
-        .productCode("ABO_GOLD")
-        .policyHolder(new PersonDto("Jan","Bak","11111111116"))
-        .accountNumber("901291092012910")
-        .policyValidFrom(LocalDate.of(2018,1,1))
-        .policyValidTo(LocalDate.of(2018,12,31))
-        .versionNumber(1)
-        .versionValidFrom(LocalDate.of(2018,1,1))
-        .versionValidTo(LocalDate.of(2018,12,31))
-        .covers([
+                .policyNumber(number)
+                .productCode("ABO_GOLD")
+                .policyHolder(new PersonDto("Jan","Bak","11111111116"))
+                .accountNumber("901291092012910")
+                .policyValidFrom(LocalDate.of(2018,1,1))
+                .policyValidTo(LocalDate.of(2018,12,31))
+                .versionNumber(version)
+                .versionValidFrom(LocalDate.of(2018,1,1))
+                .versionValidTo(LocalDate.of(2018,12,31))
+                .covers([
                 CoverDto.builder()
                         .code("C1")
                         .services([
                         ServiceDto.builder()
-                        .code("S1")
-                        .coPayment(new CoPaymentDto(10,null))
-                        .limit(new LimitDto("POLICY_YEAR",10,null))
-                        .build()
-                        ])
+                                .code("S1")
+                                .coPayment(new CoPaymentDto(10,null))
+                                .limit(new LimitDto("POLICY_YEAR",10,null))
+                                .build()
+                ])
                         .build()
         ])
-        .build()
+                .build()
 
         return pv
+    }
+
+    PolicyVersionDto buildDto(){
+        return buildDto("P1", 1)
     }
 }

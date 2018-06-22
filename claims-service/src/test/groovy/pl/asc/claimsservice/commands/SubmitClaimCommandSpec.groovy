@@ -30,7 +30,7 @@ class SubmitClaimCommandSpec extends Specification {
             eventPublisher
     )
 
-    void "cannot register claim"() {
+    void "can register claim"() {
         given: "submit claim command"
         def cmd = SubmitClaimCommand.builder()
             .policyNumber("P1212121")
@@ -41,7 +41,7 @@ class SubmitClaimCommandSpec extends Specification {
             ] as Set)
             .build()
 
-        and: "policy"
+        and: "valid policy"
             policyRepository.findByNumber(_ as String) >> Optional.of(policyBuilder.build())
         and:
             claimRepository.save(_ as Claim) >> { Claim c ->  inMemoDb.put(c.number, c) }

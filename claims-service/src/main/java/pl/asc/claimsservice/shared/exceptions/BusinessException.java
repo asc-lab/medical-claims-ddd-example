@@ -1,9 +1,13 @@
 package pl.asc.claimsservice.shared.exceptions;
 
+import lombok.Getter;
+
 public class BusinessException extends RuntimeException {
     protected static final Object[] EMPTY_ARGS = new Object[0];
 
+    @Getter
     private String code = null;
+    @Getter
     private Object[] args = EMPTY_ARGS;
 
     public BusinessException(String code) {

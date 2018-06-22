@@ -1,6 +1,7 @@
 package pl.asc.claimsservice.domainmodel;
 
 import lombok.RequiredArgsConstructor;
+import pl.asc.claimsservice.shared.exceptions.BusinessException;
 import pl.asc.claimsservice.shared.primitives.DateRange;
 
 import java.time.LocalDate;
@@ -49,6 +50,14 @@ class PolicyVersionCollection {
             DateRange coverPeriod,
             DateRange versionPeriod
             ) {
+        if (hasVersion(versionNumber)) {
+            throw new BusinessException(
+                    "POLVEREXISTS",
+                    new Object[] { policy.getNumber(), versionNumber });
+        }
+
+
+
         PolicyVersion ver = new PolicyVersion(
                 null,
                 policy,
@@ -62,6 +71,10 @@ class PolicyVersionCollection {
         );
         versions.add(ver);
         return ver;
+    }
+
+     boolean hasVersion(Long versionNumber) {
+        return versions.stream().anyMatch(v -> v.getVersionNumber().equals(versionNumber));
     }
 
 

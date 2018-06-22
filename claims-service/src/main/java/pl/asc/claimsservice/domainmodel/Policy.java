@@ -34,7 +34,7 @@ public class Policy {
         this.consumptionContainers = new ArrayList<>();
     }
 
-    PolicyVersionCollection versions() {
+    public PolicyVersionCollection versions() {
         return new PolicyVersionCollection(this, versions);
     }
 
