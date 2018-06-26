@@ -54,8 +54,14 @@ public class LimitConsumptionContainer
         return new Consumed(consumedQt, consumedAmount);
     }
 
-    void registerConsumption(LocalDate eventDate, Quantity qt, MonetaryAmount cost) {
-        LimitConsumption newConsumption = new LimitConsumption(this, eventDate, qt, cost);
+    void releaseConsumption(ClaimItem item) {
+        this.consumptions.removeIf(cons -> cons.getConsumptionSource().equals(item));
+    }
+
+    public void registerConsumption(ClaimItem item) {
+        LimitConsumption newConsumption = new LimitConsumption(
+                this,
+                item);
         consumptions.add(newConsumption);
     }
 

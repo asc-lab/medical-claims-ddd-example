@@ -13,7 +13,7 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-class SubmitClaimCommandSpec extends Specification {
+class SubmitClaimHandlerSpec extends Specification {
     PolicyBuilder policyBuilder = new PolicyBuilder()
 
     PolicyRepository policyRepository = Stub(PolicyRepository)

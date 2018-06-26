@@ -46,10 +46,11 @@ public class Claim {
     }
 
     public void evaluate() {
-        checkState(status.isEditable());
+        checkState(status.allowsEdition());
 
         if (!policyVersion.covers(this)){
-            reject();
+            rejectAllItems();
+            status = ClaimStatus.REJECTED;
             return;
         }
 
@@ -59,13 +60,24 @@ public class Claim {
         status = ClaimStatus.EVALUATED;
     }
 
+    public void reject() {
+        checkState(status.allowsRejection());
+        rejectAllItems();
+        status = ClaimStatus.REJECTED;
+    }
+
+    public void accept() {
+        checkState(status.allowsAcceptance());
+        status = ClaimStatus.ACCEPTED;
+    }
+
     void addItem(String serviceCode, Quantity qt, MonetaryAmount price) {
-        checkState(status.isEditable());
+        checkState(status.allowsEdition());
         ClaimItem item = new ClaimItem(null, this, serviceCode, qt, price, null);
         items.add(item);
     }
 
-    private void reject() {
+    private void rejectAllItems() {
         items.forEach(i -> i.reject());
         evaluation = ClaimItemEvaluation.of(this.items);
     }

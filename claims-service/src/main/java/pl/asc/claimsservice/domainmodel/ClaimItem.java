@@ -66,6 +66,7 @@ public class ClaimItem {
 
     void reject() {
         this.evaluation = ClaimItemEvaluation.paidByCustomer(this);
+        claim.getPolicyVersion().getPolicy().consumptionContainers().releaseConsumption(this);
     }
 
     MonetaryAmount cost() {

@@ -32,10 +32,15 @@ public class LimitConsumption {
     })
     private MonetaryAmount amount;
 
-    public LimitConsumption(LimitConsumptionContainer container, LocalDate date, Quantity quantity, MonetaryAmount amount) {
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "CLAIM_ITEM_ID")
+    private ClaimItem consumptionSource;
+
+    public LimitConsumption(LimitConsumptionContainer container, ClaimItem src) {
         this.container = container;
-        this.date = date;
-        this.quantity = quantity;
-        this.amount = amount;
+        this.date = src.getClaim().getEventDate();
+        this.quantity = src.getQt();
+        this.amount = src.cost();
+        this.consumptionSource = src;
     }
 }

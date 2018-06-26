@@ -3,28 +3,74 @@ package pl.asc.claimsservice.domainmodel;
 public enum ClaimStatus {
     IN_EVALUATION {
         @Override
-        public boolean isEditable() {
+        boolean allowsEdition() {
             return true;
         }
+
+        @Override
+        boolean allowsRejection() {
+            return true;
+        }
+
+        @Override
+        public boolean allowsAcceptance() {
+            return false;
+        }
+
+
     },
     EVALUATED {
         @Override
-        public boolean isEditable() {
+        boolean allowsEdition() {
             return false;
+        }
+
+        @Override
+        boolean allowsRejection() {
+            return true;
+        }
+
+        @Override
+        public boolean allowsAcceptance() {
+            return true;
         }
     },
     ACCEPTED {
         @Override
-        public boolean isEditable() {
+        boolean allowsEdition() {
+            return false;
+        }
+
+        @Override
+        boolean allowsRejection() {
+            return false;
+        }
+
+        @Override
+        public boolean allowsAcceptance() {
             return false;
         }
     },
     REJECTED {
         @Override
-        public boolean isEditable() {
+        boolean allowsEdition() {
+            return false;
+        }
+
+        @Override
+        boolean allowsRejection() {
+            return false;
+        }
+
+        @Override
+        public boolean allowsAcceptance() {
             return false;
         }
     };
 
-    abstract public boolean isEditable();
+    abstract boolean allowsEdition();
+
+    abstract boolean allowsRejection();
+
+    public abstract boolean allowsAcceptance();
 }

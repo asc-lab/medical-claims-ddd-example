@@ -1,5 +1,6 @@
 package pl.asc.claimsservice.domainmodel;
 
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
 import pl.asc.claimsservice.shared.primitives.Quantity;
@@ -20,9 +21,22 @@ public class LimitConsumptionContainerCollection {
                 : new LimitConsumptionContainer.Consumed(Quantity.zero(), MonetaryAmount.zero());
     }
 
+    List<LimitConsumption> getConsumptionFor(String serviceCode) {
+        LimitConsumptionContainer container = getOrCreateContainer(serviceCode);
+
+        return container!=null ?
+                container.getConsumptions()
+                : Lists.newArrayList();
+    }
+
     void registerConsumption(ClaimItem item) {
         LimitConsumptionContainer container = getOrCreateContainer(item.getServiceCode());
-        container.registerConsumption(item.getClaim().getEventDate(), item.getQt(), item.cost());
+        container.registerConsumption(item);
+    }
+
+    void releaseConsumption(ClaimItem item) {
+        LimitConsumptionContainer container = getOrCreateContainer(item.getServiceCode());
+        container.releaseConsumption(item);
     }
 
     private LimitConsumptionContainer getOrCreateContainer(String serviceCode) {
