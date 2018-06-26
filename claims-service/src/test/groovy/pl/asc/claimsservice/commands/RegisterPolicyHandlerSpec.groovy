@@ -9,7 +9,7 @@ import pl.asc.claimsservice.domainmodel.PolicyRepository
 import pl.asc.claimsservice.shared.exceptions.BusinessException
 import spock.lang.Specification
 
-class RegisterPolicyHandlerSpecification extends Specification {
+class RegisterPolicyHandlerSpec extends Specification {
     PolicyBuilder policyBuilder = new PolicyBuilder()
     PolicyRepository policyRepository = Stub(PolicyRepository)
 

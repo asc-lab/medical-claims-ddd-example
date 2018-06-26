@@ -14,4 +14,10 @@ class PolicyAsserts {
     boolean hasNoConsumptionForService(String serviceCode) {
         return policy.consumptionContainers().getConsumptionFor(serviceCode).size() == 0
     }
+
+    boolean hasConsumptionForService(String serviceCode, BigDecimal expectedConsumptionAmount) {
+        List<LimitConsumption> consumptions = policy.consumptionContainers().getConsumptionFor(serviceCode)
+        def sum = consumptions.sum { it -> it.amount.amount }
+        return expectedConsumptionAmount.compareTo(sum) == 0
+    }
 }
