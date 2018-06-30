@@ -53,7 +53,9 @@ public class PolicyVersion {
     }
 
     boolean covers(Claim claim){
-        return coverPeriod.contains(claim.getEventDate()) && this.equals(claim.getPolicyVersion());
+        return coverPeriod.contains(claim.getEventDate())
+                && this.getPolicy().getNumber().equals(claim.getPolicyVersionRef().getPolicyNumber())
+                && this.getVersionNumber().equals(claim.getPolicyVersionRef().getVersionNumber());
     }
 
     CoverCollection covers() {

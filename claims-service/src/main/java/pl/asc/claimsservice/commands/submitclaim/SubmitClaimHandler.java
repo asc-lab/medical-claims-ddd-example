@@ -8,7 +8,10 @@ import pl.asc.claimsservice.domainmodel.*;
 import pl.asc.claimsservice.shared.cqs.CommandHandler;
 import pl.asc.claimsservice.shared.exceptions.BusinessException;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -16,6 +19,7 @@ import java.util.Optional;
 public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, SubmitClaimCommand> {
     private final PolicyRepository policyRepository;
     private final ClaimRepository claimRepository;
+    private final LimitConsumptionContainerRepository consumptionContainerRepository;
     private final ClaimNumberGenerator claimNumberGenerator;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -27,6 +31,10 @@ public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, Sub
             throw new BusinessException("POLICY NOT FOUND");
         }
 
+        LimitConsumptionContainerCollection consumptions = consumptionContainerRepository.findForPolicyAndServices(
+                submitClaimCommand.getPolicyNumber(),
+                collectServiceCodes(submitClaimCommand.getItems()));
+
         Claim claim = ClaimFactory
                 .forPolicy(policy)
                 .withNumber(claimNumberGenerator.generateClaimNumber())
@@ -34,12 +42,18 @@ public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, Sub
                 .withItems(submitClaimCommand.getItems())
                 .create();
 
-        claim.evaluate();
+        claim.evaluate(new ClaimEvaluationPolicy(policy.get(), consumptions));
 
         claimRepository.save(claim);
+
+        consumptionContainerRepository.save(consumptions);
 
         eventPublisher.publishEvent(new ClaimCreatedEvent(this, claim));
 
         return SubmitClaimResult.success(claim);
+    }
+
+    private List<String> collectServiceCodes(Set<SubmitClaimCommand.Item> items) {
+        return items.stream().map(i -> i.getServiceCode()).collect(Collectors.toList());
     }
 }

@@ -25,20 +25,12 @@ public class Policy {
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
     private Set<PolicyVersion> versions;
 
-    @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
-    private List<LimitConsumptionContainer> consumptionContainers;
-
     public Policy(String number) {
         this.number = number;
         this.versions = new HashSet<>();
-        this.consumptionContainers = new ArrayList<>();
     }
 
     public PolicyVersionCollection versions() {
         return new PolicyVersionCollection(this, versions);
-    }
-
-    LimitConsumptionContainerCollection consumptionContainers() {
-        return new LimitConsumptionContainerCollection(consumptionContainers,this);
     }
 }

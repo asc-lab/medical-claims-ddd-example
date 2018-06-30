@@ -39,7 +39,7 @@ public class ClaimFactory {
 
     public Claim create() {
         Claim claim = new Claim(claimNumber, eventDate, policy);
-        this.items.forEach(i -> claim.addItem(i.getServiceCode(), Quantity.of(i.getQuantity()), MonetaryAmount.from(i.getPrice())));
+        this.items.forEach(i -> claim.addItem(ServiceCode.of(i.getServiceCode()), Quantity.of(i.getQuantity()), MonetaryAmount.from(i.getPrice())));
         return claim;
     }
 }

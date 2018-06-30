@@ -16,11 +16,11 @@ class RegisterPolicyHandlerSpec extends Specification {
     RegisterPolicyHandler registerPolicyHandler = new RegisterPolicyHandler(policyRepository)
 
     void "can register new policy"() {
-        given: "command to register new policy P1"
+        given: "command to register new policyRef P1"
         def inMemoDb = new HashMap<String, Claim>()
         def cmd = new RegisterPolicyCommand(policyBuilder.buildDto("P1",1))
 
-        and: "policy does not exists"
+        and: "policyRef does not exists"
         policyRepository.findByNumber(_ as String) >> Optional.empty()
 
         and:
@@ -38,10 +38,10 @@ class RegisterPolicyHandlerSpec extends Specification {
     }
 
     void "new version is added to existing policy"(){
-        given: "command to register version 3 of policy P1212121"
+        given: "command to register version 3 of policyRef P1212121"
         def cmd = new RegisterPolicyCommand(policyBuilder.buildDto("P1212121",3))
 
-        and: "policy exists with version 1 and 2"
+        and: "policyRef exists with version 1 and 2"
         Policy existingPolicy = policyBuilder.build()
         policyRepository.findByNumber("P1212121") >> Optional.of(existingPolicy)
 
@@ -56,10 +56,10 @@ class RegisterPolicyHandlerSpec extends Specification {
     }
 
     void "when version already exists exception is thrown"(){
-        given: "command to register version 2 of policy P1212121"
+        given: "command to register version 2 of policyRef P1212121"
         def cmd = new RegisterPolicyCommand(policyBuilder.buildDto("P1212121",2))
 
-        and: "policy exists with versions 1 and 2"
+        and: "policyRef exists with versions 1 and 2"
         Policy existingPolicy = policyBuilder.build()
         policyRepository.findByNumber("P1212121") >> Optional.of(existingPolicy)
 

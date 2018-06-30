@@ -21,7 +21,11 @@ public class ClaimItem {
     @JoinColumn(name = "CLAIM_ID")
     private Claim claim;
 
-    private String serviceCode;
+    @Embedded
+    @AttributeOverrides(
+            @AttributeOverride(name = "code", column = @Column(name = "SERVICE_CODE"))
+    )
+    private ServiceCode serviceCode;
 
     @Embedded
     @AttributeOverrides({
@@ -38,40 +42,18 @@ public class ClaimItem {
     @Embedded
     private ClaimItemEvaluation evaluation;
 
-    void evaluate() {
-        //assume insurer pays all
-        evaluation = ClaimItemEvaluation.paidByInsurer(this);
-
-        //check if covered by policy
-        if (ClaimItemNotCovered.isSatisfied(this)) {
-            reject();
-            return;
-        }
-
-        //apply coPayment
-        MonetaryAmount coPayment = claim.getPolicyVersion().getCoPaymentFor(serviceCode).calculate(this.cost());
-        evaluation.applyCoPayment(coPayment);
-
-        //apply limit
-        Limit limit = claim.getPolicyVersion().getLimitFor(serviceCode);
-        LimitConsumptionContainer.Consumed consumed = claim
-                .getPolicyVersion()
-                .getPolicy()
-                .consumptionContainers()
-                .getConsumptionFor(claim.getEventDate(), serviceCode, limit.getPeriod());
-        evaluation.applyLimit(limit.calculate(qt, price, coPayment, consumed.getQuantity(), consumed.getAmount()));
-
-        claim.getPolicyVersion().getPolicy().consumptionContainers().registerConsumption(this);
+    void evaluate(ClaimEvaluationPolicy evaluationPolicy) {
+        this.evaluation = evaluationPolicy.evaluateItem(this);
     }
 
     void reject() {
         this.evaluation = ClaimItemEvaluation.paidByCustomer(this);
-        claim.getPolicyVersion().getPolicy().consumptionContainers().releaseConsumption(this);
     }
 
     MonetaryAmount cost() {
         return qt.multiply(price);
     }
+
 
 
 }

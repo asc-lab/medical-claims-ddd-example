@@ -30,7 +30,7 @@ class PolicyVersionCreatedMessageHandlerSpec extends Specification {
         when: "message is send"
         sink.input().send(msg)
 
-        then: "policy gets registered"
+        then: "policyRef gets registered"
         policyRepository.findByNumber("P1").isPresent()
 
 

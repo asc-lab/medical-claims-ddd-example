@@ -7,6 +7,11 @@ import pl.asc.claimsservice.domainmodel.Claim
 import pl.asc.claimsservice.domainmodel.ClaimNumberGenerator
 import pl.asc.claimsservice.domainmodel.ClaimRepository
 import pl.asc.claimsservice.builders.PolicyBuilder
+import pl.asc.claimsservice.domainmodel.ClaimStatus
+import pl.asc.claimsservice.domainmodel.LimitConsumptionContainerCollection
+import pl.asc.claimsservice.domainmodel.LimitConsumptionContainerRepository
+import pl.asc.claimsservice.domainmodel.Policy
+import pl.asc.claimsservice.domainmodel.PolicyAsserts
 import pl.asc.claimsservice.domainmodel.PolicyRepository
 import pl.asc.claimsservice.domainmodel.UuidClaimNumberGenerator
 import spock.lang.Specification
@@ -18,6 +23,7 @@ class SubmitClaimHandlerSpec extends Specification {
 
     PolicyRepository policyRepository = Stub(PolicyRepository)
     ClaimRepository claimRepository = Stub(ClaimRepository)
+    LimitConsumptionContainerRepository consumptionContainerRepository = Stub(LimitConsumptionContainerRepository)
     ClaimNumberGenerator claimNumberGenerator = new UuidClaimNumberGenerator()
     ApplicationEventPublisher eventPublisher = Stub(ApplicationEventPublisher)
 
@@ -26,6 +32,7 @@ class SubmitClaimHandlerSpec extends Specification {
     SubmitClaimHandler submitClaimHandler = new SubmitClaimHandler(
             policyRepository,
             claimRepository,
+            consumptionContainerRepository,
             claimNumberGenerator,
             eventPublisher
     )
@@ -41,8 +48,12 @@ class SubmitClaimHandlerSpec extends Specification {
             ] as Set)
             .build()
 
-        and: "valid policy"
-            policyRepository.findByNumber(_ as String) >> Optional.of(policyBuilder.build())
+        and: "valid policyRef"
+            Policy policy = policyBuilder.build()
+            policyRepository.findByNumber(_ as String) >> Optional.of(policy)
+        and: "empty consumptions"
+        LimitConsumptionContainerCollection consumptions = new LimitConsumptionContainerCollection([])
+            consumptionContainerRepository.findForPolicyAndServices(_,_) >> consumptions
         and:
             claimRepository.save(_ as Claim) >> { Claim c ->  inMemoDb.put(c.number, c) }
 
@@ -55,6 +66,8 @@ class SubmitClaimHandlerSpec extends Specification {
         claim != null
         claim.number == submitResult.claimNumber
         claim.eventDate == LocalDate.of(2018,3,1)
-        claim.policyVersion.policy.number == "P1212121"
+        claim.policyVersionRef.policyNumber == "P1212121"
+        claim.status == ClaimStatus.EVALUATED
+        PolicyAsserts.of(policy, consumptions).hasConsumptionForService("KONS_INTERNISTA", 20.0)
     }
 }

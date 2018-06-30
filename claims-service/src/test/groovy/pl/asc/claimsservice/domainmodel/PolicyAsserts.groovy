@@ -2,21 +2,22 @@ package pl.asc.claimsservice.domainmodel
 
 class PolicyAsserts {
     private final Policy policy
-
-    PolicyAsserts(Policy policy) {
+    private final LimitConsumptionContainerCollection consumptions
+    PolicyAsserts(Policy policy, LimitConsumptionContainerCollection consumptions) {
         this.policy = policy
+        this.consumptions = consumptions
     }
 
-    static of(Policy policy) {
-        return new PolicyAsserts(policy)
+    static of(Policy policy, LimitConsumptionContainerCollection consumptions) {
+        return new PolicyAsserts(policy, consumptions)
     }
 
     boolean hasNoConsumptionForService(String serviceCode) {
-        return policy.consumptionContainers().getConsumptionFor(serviceCode).size() == 0
+        return consumptions.getConsumptionFor(PolicyRef.of(policy), ServiceCode.of(serviceCode)).size() == 0
     }
 
     boolean hasConsumptionForService(String serviceCode, BigDecimal expectedConsumptionAmount) {
-        List<LimitConsumption> consumptions = policy.consumptionContainers().getConsumptionFor(serviceCode)
+        List<LimitConsumption> consumptions = consumptions.getConsumptionFor(PolicyRef.of(policy), ServiceCode.of(serviceCode))
         def sum = consumptions.sum { it -> it.amount.amount }
         return expectedConsumptionAmount.compareTo(sum) == 0
     }

@@ -10,7 +10,7 @@ public class CoverCollection {
     private final Set<Cover> covers;
 
     Cover add(String code) {
-        Cover cover = new Cover(code);
+        Cover cover = new Cover(policyVersion, code);
         covers.add(cover);
         return cover;
     }

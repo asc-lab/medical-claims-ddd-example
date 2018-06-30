@@ -8,7 +8,6 @@ import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
 import pl.asc.claimsservice.shared.primitives.Quantity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,15 +21,24 @@ public class LimitConsumptionContainer
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "POLICY_ID")
-    private Policy policy;
-    private String serviceCode;
+
+    @Embedded
+    @AttributeOverrides(
+            @AttributeOverride(name = "policyNumber", column = @Column(name = "POLICY_NUMBER"))
+    )
+    private PolicyRef policyRef;
+
+    @Embedded
+    @AttributeOverrides(
+            @AttributeOverride(name = "code", column = @Column(name = "SERVICE_CODE"))
+    )
+    private ServiceCode serviceCode;
+
     @OneToMany(mappedBy = "container", cascade = CascadeType.ALL)
     private List<LimitConsumption> consumptions;
 
-    LimitConsumptionContainer(Policy policy, String serviceCode) {
-        this.policy = policy;
+    LimitConsumptionContainer(PolicyRef policy, ServiceCode serviceCode) {
+        this.policyRef = policy;
         this.serviceCode = serviceCode;
         this.consumptions = new ArrayList<>();
     }
@@ -55,7 +63,7 @@ public class LimitConsumptionContainer
     }
 
     void releaseConsumption(ClaimItem item) {
-        this.consumptions.removeIf(cons -> cons.getConsumptionSource().equals(item));
+        this.consumptions.removeIf(cons -> cons.getConsumptionSource().equals(ClaimRef.of(item.getClaim())));
     }
 
     public void registerConsumption(ClaimItem item) {

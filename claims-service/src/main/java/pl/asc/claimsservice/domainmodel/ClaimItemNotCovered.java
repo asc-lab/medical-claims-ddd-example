@@ -1,14 +1,18 @@
 package pl.asc.claimsservice.domainmodel;
 
+import lombok.RequiredArgsConstructor;
 import pl.asc.claimsservice.shared.specification.Specification;
 
+@RequiredArgsConstructor
 public class ClaimItemNotCovered extends Specification<ClaimItem> {
-    static boolean isSatisfied(ClaimItem objectToCheck) {
-        return new ClaimItemNotCovered().isSatisfiedBy(objectToCheck);
+    private final PolicyVersion policyVersion;
+
+    static boolean isSatisfied(PolicyVersion policyVersion, ClaimItem objectToCheck) {
+        return new ClaimItemNotCovered(policyVersion).isSatisfiedBy(objectToCheck);
     }
 
     @Override
     public boolean isSatisfiedBy(ClaimItem objectToCheck) {
-        return !objectToCheck.getClaim().getPolicyVersion().covers().hasCoverForService(objectToCheck.getServiceCode());
+        return !policyVersion.covers().hasCoverForService(objectToCheck.getServiceCode().getCode());
     }
 }

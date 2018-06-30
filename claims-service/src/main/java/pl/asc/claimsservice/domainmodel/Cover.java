@@ -25,7 +25,8 @@ public class Cover {
     @OneToMany(mappedBy = "cover", cascade = CascadeType.ALL)
     private Set<Service> services;
 
-    public Cover(String code) {
+    public Cover(PolicyVersion policyVersion, String code) {
+        this.policyVersion = policyVersion;
         this.code = code;
         this.services = new HashSet<>();
     }

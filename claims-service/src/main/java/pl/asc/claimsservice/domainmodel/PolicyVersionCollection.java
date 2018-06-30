@@ -11,11 +11,11 @@ import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
-class PolicyVersionCollection {
+public class PolicyVersionCollection {
     private final Policy policy;
     private final Set<PolicyVersion> versions;
 
-    PolicyVersion withNumber(Long number){
+    public PolicyVersion withNumber(Long number){
         return versions
                 .stream()
                 .filter(v -> v.getVersionNumber().equals(number))
@@ -23,7 +23,8 @@ class PolicyVersionCollection {
                 .get(); //change to or else throw
     }
 
-    PolicyVersion validAtDate(LocalDate theDate) {
+    //TODO: remove public
+    public PolicyVersion validAtDate(LocalDate theDate) {
         Optional<PolicyVersion> version = versions
                 .stream()
                 .sorted(Comparators.BY_VERSION_NUMBER_DESC)

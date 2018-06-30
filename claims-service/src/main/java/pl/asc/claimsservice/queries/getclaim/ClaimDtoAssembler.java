@@ -1,9 +1,7 @@
 package pl.asc.claimsservice.queries.getclaim;
 
 import lombok.AllArgsConstructor;
-import pl.asc.claimsservice.domainmodel.Claim;
-import pl.asc.claimsservice.domainmodel.ClaimItem;
-import pl.asc.claimsservice.domainmodel.Person;
+import pl.asc.claimsservice.domainmodel.*;
 import pl.asc.claimsservice.queries.getclaim.dto.ClaimDto;
 import pl.asc.claimsservice.queries.getclaim.dto.ClaimItemDto;
 
@@ -13,9 +11,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ClaimDtoAssembler {
     private Claim claim;
+    private PolicyVersion policyVersion;
 
-    static ClaimDtoAssembler from(Claim claim) {
-        return new ClaimDtoAssembler(claim);
+    static ClaimDtoAssembler from(Claim claim, Policy policy) {
+        return new ClaimDtoAssembler(claim, policy.versions().withNumber(claim.getPolicyVersionRef().getVersionNumber()));
     }
 
     ClaimDto assembleDto() {
@@ -26,8 +25,8 @@ public class ClaimDtoAssembler {
         return ClaimDto.builder()
                 .id(claim.getId())
                 .claimNumber(claim.getNumber())
-                .policyNumber(claim.getPolicyVersion().getPolicy().getNumber())
-                .policyHolder(assemblePolicyHolder(claim.getPolicyVersion().getPolicyHolder()))
+                .policyNumber(claim.getPolicyVersionRef().getPolicyNumber())
+                .policyHolder(assemblePolicyHolder(policyVersion.getPolicyHolder()))
                 .eventDate(claim.getEventDate())
                 .statusCode(claim.getStatus().toString())
                 .paidByInsurerPart(claim.getEvaluation().getPaidByInsurer().getAmount())
@@ -46,7 +45,7 @@ public class ClaimDtoAssembler {
 
     private ClaimItemDto assembleItem(ClaimItem claimItem) {
         return ClaimItemDto.builder()
-                .serviceCode(claimItem.getServiceCode())
+                .serviceCode(claimItem.getServiceCode().getCode())
                 .quantity(claimItem.getQt().getValue())
                 .price(claimItem.getPrice().getAmount())
                 .paidByInsurerPart(claimItem.getEvaluation().getPaidByInsurer().getAmount())

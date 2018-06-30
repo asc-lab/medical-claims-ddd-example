@@ -32,15 +32,17 @@ public class LimitConsumption {
     })
     private MonetaryAmount amount;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "CLAIM_ITEM_ID")
-    private ClaimItem consumptionSource;
+    @Embedded
+    @AttributeOverrides(
+            @AttributeOverride(name = "number", column = @Column(name = "CLAIM_NUMBER"))
+    )
+    private ClaimRef consumptionSource;
 
     public LimitConsumption(LimitConsumptionContainer container, ClaimItem src) {
         this.container = container;
         this.date = src.getClaim().getEventDate();
         this.quantity = src.getQt();
         this.amount = src.cost();
-        this.consumptionSource = src;
+        this.consumptionSource = ClaimRef.of(src.getClaim());
     }
 }

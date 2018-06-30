@@ -8,7 +8,7 @@ class LimitSpec extends Specification {
     // amount limit tests
 
     void "when requested amount is below limit insurer pays all"() {
-        given: "given 100 amount for policy year"
+        given: "given 100 amount for policyRef year"
         def limit = Limit.amountForPolicyYear(MonetaryAmount.from(100))
 
         when: "previous consumption is 0 and we try to take 90"
@@ -24,7 +24,7 @@ class LimitSpec extends Specification {
     }
 
     void "when requested amount is above limit insurer pays up to limit"() {
-        given: "given 100 amount for policy year"
+        given: "given 100 amount for policyRef year"
         def limit = Limit.amountForPolicyYear(MonetaryAmount.from(100))
 
         when: "previous consumption is 0 and we try to take 120"
@@ -40,7 +40,7 @@ class LimitSpec extends Specification {
     }
 
     void "when requested amount plus perv consumption is below limit insurer pays all"() {
-        given: "given 100 amount for policy year"
+        given: "given 100 amount for policyRef year"
         def limit = Limit.amountForPolicyYear(MonetaryAmount.from(100))
 
         when: "previous consumption is 10 and we try to take 90"
@@ -56,7 +56,7 @@ class LimitSpec extends Specification {
     }
 
     void "when requested amount plus prev consumption is above limit insurer pays up to limit"() {
-        given: "given 100 amount for policy year"
+        given: "given 100 amount for policyRef year"
         def limit = Limit.amountForPolicyYear(MonetaryAmount.from(100))
 
         when: "previous consumption is 20 and we try to take 120"
@@ -73,7 +73,7 @@ class LimitSpec extends Specification {
 
 
     void "when limit exhausted by prev consumptions insurer pays zero"() {
-        given: "given 100 amount for policy year"
+        given: "given 100 amount for policyRef year"
         def limit = Limit.amountForPolicyYear(MonetaryAmount.from(100))
 
         when: "previous consumption is 120 and we try to take 120"
@@ -90,7 +90,7 @@ class LimitSpec extends Specification {
 
     //qt limit tests
     void "when requested qt is below limit insurer pays all"() {
-        given: "given 10 qt for policy year"
+        given: "given 10 qt for policyRef year"
         def limit = Limit.quantityForPolicyYear(Quantity.of(10))
 
         when: "previous consumption is 0 and we try to take 9"
@@ -106,7 +106,7 @@ class LimitSpec extends Specification {
     }
 
     void "when requested qt is above limit insurer pays up to limit"() {
-        given: "given 10 qt for policy year"
+        given: "given 10 qt for policyRef year"
         def limit = Limit.quantityForPolicyYear(Quantity.of(10))
 
         when: "previous consumption is 0 and we try to take 11"
@@ -122,7 +122,7 @@ class LimitSpec extends Specification {
     }
 
     void "when requested qt plus prev consumption is below limit insurer pays all"() {
-        given: "given 10 qt for policy year"
+        given: "given 10 qt for policyRef year"
         def limit = Limit.quantityForPolicyYear(Quantity.of(10))
 
         when: "previous consumption is 1 and we try to take 9"
@@ -138,7 +138,7 @@ class LimitSpec extends Specification {
     }
 
     void "when requested qt plus prev consumption is above limit insurer pays up to limit"() {
-        given: "given 10 qt for policy year"
+        given: "given 10 qt for policyRef year"
         def limit = Limit.quantityForPolicyYear(Quantity.of(10))
 
         when: "previous consumption is 2 and we try to take 9"
@@ -154,7 +154,7 @@ class LimitSpec extends Specification {
     }
 
     void "when limit is exhausted by prev qt consumption insurer pays zero"() {
-        given: "given 10 qt for policy year"
+        given: "given 10 qt for policyRef year"
         def limit = Limit.quantityForPolicyYear(Quantity.of(10))
 
         when: "previous consumption is 10 and we try to take 9"

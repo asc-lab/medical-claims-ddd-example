@@ -22,9 +22,12 @@ public class Claim {
 
     private String number; //make VO
 
-    @ManyToOne()
-    @JoinColumn(name = "POLICY_VERSION_ID")
-    private PolicyVersion policyVersion;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "policyNumber", column = @Column(name = "POLICY_NUMBER")),
+            @AttributeOverride(name = "versionNumber", column = @Column(name = "POLICY_VERSION"))
+    })
+    private PolicyVersionRef policyVersionRef;
 
     private LocalDate eventDate;
 
@@ -38,23 +41,23 @@ public class Claim {
 
     public Claim(String number, LocalDate eventDate, Policy policy){
         this.number = number;
-        this.policyVersion = policy.versions().validAtDate(eventDate);
+        this.policyVersionRef = PolicyVersionRef.of(policy.versions().validAtDate(eventDate));
         this.eventDate = eventDate;
         this.status = ClaimStatus.IN_EVALUATION;
         this.evaluation = null;
         this.items = new HashSet<>();
     }
 
-    public void evaluate() {
+    public void evaluate(ClaimEvaluationPolicy evaluationPolicy) {
         checkState(status.allowsEdition());
 
-        if (!policyVersion.covers(this)){
+        if (evaluationPolicy.claimNotCovered(this)) {
             rejectAllItems();
             status = ClaimStatus.REJECTED;
             return;
         }
 
-        items.forEach(i -> i.evaluate());
+        items.forEach(i -> i.evaluate(evaluationPolicy));
 
         evaluation = ClaimItemEvaluation.of(this.items);
         status = ClaimStatus.EVALUATED;
@@ -71,7 +74,7 @@ public class Claim {
         status = ClaimStatus.ACCEPTED;
     }
 
-    void addItem(String serviceCode, Quantity qt, MonetaryAmount price) {
+    void addItem(ServiceCode serviceCode, Quantity qt, MonetaryAmount price) {
         checkState(status.allowsEdition());
         ClaimItem item = new ClaimItem(null, this, serviceCode, qt, price, null);
         items.add(item);

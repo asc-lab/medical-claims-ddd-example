@@ -30,12 +30,12 @@ public class ClaimViewProjectionService {
                 null,
                 claim.getNumber(),
                 claim.getStatus().toString(),
-                claim.getPolicyVersion().getPolicy().getNumber(),
+                claim.getPolicyVersionRef().getPolicyNumber(),
                 claim.getEventDate(),
                 claim.getEvaluation().getPaidByCustomer().add(claim.getEvaluation().getPaidByInsurer()).getAmount(),
                 claim.getEvaluation().getPaidByInsurer().getAmount(),
                 claim.getEvaluation().getPaidByCustomer().getAmount(),
-                claim.getItems().stream().map(s->s.getServiceCode()).collect(Collectors.toList())
+                claim.getItems().stream().map(s->s.getServiceCode().getCode()).collect(Collectors.toList())
         );
     }
 }
