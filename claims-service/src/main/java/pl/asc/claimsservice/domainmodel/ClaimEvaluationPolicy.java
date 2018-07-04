@@ -1,6 +1,9 @@
 package pl.asc.claimsservice.domainmodel;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
 
 @RequiredArgsConstructor
@@ -14,35 +17,54 @@ public class ClaimEvaluationPolicy {
 
 
     ClaimItemEvaluation evaluateItem(ClaimItem claimItem) {
-        PolicyVersion policyVersion = policy.versions().validAtDate(claimItem.getClaim().getEventDate());
+        EvaluationContext ctx = EvaluationContext.builder()
+                .policyVersion(policy.versions().validAtDate(claimItem.getClaim().getEventDate()))
+                .claimItem(claimItem)
+                .evaluation(ClaimItemEvaluation.paidByInsurer(claimItem))
+                .build();
 
-        //assume insurer pays all
-        ClaimItemEvaluation evaluation = ClaimItemEvaluation.paidByInsurer(claimItem);
-
-        //check if covered by policy
-        if (ClaimItemNotCovered.isSatisfied(policyVersion,claimItem)) {
-            evaluation = ClaimItemEvaluation.paidByCustomer(claimItem);
-            return evaluation;
+        if (ClaimItemNotCovered.isSatisfied(ctx.policyVersion,ctx.claimItem)) {
+            return ClaimItemEvaluation.paidByCustomer(claimItem);
         }
 
-        //apply coPayment
-        MonetaryAmount coPayment = policyVersion.getCoPaymentFor(claimItem.getServiceCode().getCode()).calculate(claimItem.cost());
-        evaluation.applyCoPayment(coPayment);
+        applyCoPayment(ctx);
 
-        //apply limit
-        Limit limit = policyVersion.getLimitFor(claimItem.getServiceCode().getCode());
-        LimitConsumptionContainer.Consumed consumed = consumptions
-                .getConsumptionFor(
-                        claimItem.getClaim().getPolicyVersionRef().policyRef(),
-                        claimItem.getClaim().getEventDate(),
-                        claimItem.getServiceCode(),
-                        limit.getPeriod().calculateDateRange(claimItem.getClaim().getEventDate(),policyVersion)
-                );
-        evaluation.applyLimit(limit.calculate(claimItem.getQt(), claimItem.getPrice(), coPayment, consumed.getQuantity(), consumed.getAmount()));
+        applyLimit(ctx);
 
         consumptions.registerConsumption(claimItem);
 
-        return evaluation;
+        return ctx.evaluation;
+    }
+
+    private void applyLimit(EvaluationContext ctx) {
+        Limit limit = ctx.policyVersion.getLimitFor(ctx.claimItem.getServiceCode().getCode());
+        LimitConsumptionContainer.Consumed consumed = consumptions
+                .getConsumptionFor(
+                        ctx.claimItem.getClaim().getPolicyVersionRef().policyRef(),
+                        ctx.claimItem.getClaim().getEventDate(),
+                        ctx.claimItem.getServiceCode(),
+                        limit.getPeriod().calculateDateRange(ctx.claimItem.getClaim().getEventDate(),ctx.policyVersion)
+                );
+        ctx.evaluation.applyLimit(
+                limit.calculate(ctx.claimItem.getQt(), ctx.claimItem.getPrice(), ctx.coPayment, consumed.getQuantity(), consumed.getAmount()));
+    }
+
+    private void applyCoPayment(EvaluationContext ctx) {
+        MonetaryAmount coPayment = ctx.policyVersion
+                .getCoPaymentFor(ctx.claimItem.getServiceCode().getCode())
+                .calculate(ctx.claimItem.cost());
+        ctx.evaluation.applyCoPayment(coPayment);
+        ctx.coPayment = coPayment;
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    static class EvaluationContext {
+        private PolicyVersion policyVersion;
+        private ClaimItem claimItem;
+        private MonetaryAmount coPayment;
+        private ClaimItemEvaluation evaluation;
     }
 
 }
