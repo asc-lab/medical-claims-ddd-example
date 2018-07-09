@@ -10,7 +10,8 @@ import pl.asc.claimsservice.domainmodel.Policy
 import java.time.LocalDate
 
 class ClaimBuilder {
-    Claim build(
+
+    static Claim build(
             Policy policy,
             LimitConsumptionContainerCollection consumptions,
             String claimNum,
@@ -26,9 +27,7 @@ class ClaimBuilder {
                     .withItems([ new SubmitClaimCommand.Item(serviceCode, qt, price) ] as Set)
                     .create()
 
-        claim.evaluate(
-                new ClaimEvaluationPolicy(policy, consumptions)
-        )
+        claim.evaluate(new ClaimEvaluationPolicy(policy, consumptions))
 
         return claim
     }

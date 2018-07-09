@@ -12,19 +12,22 @@ import spock.lang.Specification
 
 @SpringBootTest(classes = ClaimsServiceApplication)
 class PolicyVersionCreatedMessageHandlerSpec extends Specification {
-    @Autowired Sink sink
+
+    @Autowired
+    Sink sink
 
     PolicyBuilder policyBuilder = new PolicyBuilder()
 
-    @Autowired ObjectMapper objectMapper
+    @Autowired
+    ObjectMapper objectMapper
 
     @Autowired
     PolicyRepository policyRepository
 
-    void "can receive message and process it"(){
+    void "can receive message and process it"() {
         given: "a message"
         def policyVersion = policyBuilder.buildDto()
-        def headers = ["eventType" : "policyVersionCreated"]
+        def headers = ["eventType": "policyVersionCreated"]
         def msg = new GenericMessage(objectMapper.writeValueAsString(policyVersion), headers)
 
         when: "message is send"
@@ -32,8 +35,5 @@ class PolicyVersionCreatedMessageHandlerSpec extends Specification {
 
         then: "policyRef gets registered"
         policyRepository.findByNumber("P1").isPresent()
-
-
-
     }
 }

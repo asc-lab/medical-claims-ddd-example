@@ -10,7 +10,7 @@ class ServiceCodeSpec extends Specification {
         ServiceCode b = ServiceCode.of("S")
 
         expect:
-        a.equals(b)
-        b.equals(a)
+        a == b
+        b == a
     }
 }
