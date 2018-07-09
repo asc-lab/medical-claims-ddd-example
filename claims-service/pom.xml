@@ -27,7 +27,7 @@
         <spring-cloud.version>Edgware.SR3</spring-cloud.version>
         <spock-core.version>1.1-groovy-2.4</spock-core.version>
         <byte-buddy.version>1.6.5</byte-buddy.version>
-        <objenesis.version>2.5.1</objenesis.version>
+        <objenesis.version>2.6</objenesis.version>
 
         <!-- PLUGINS VERSION -->
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
@@ -135,12 +135,6 @@
             <version>${byte-buddy.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency> <!-- enables mocking of classes without default constructor (together with CGLIB) -->
-            <groupId>org.objenesis</groupId>
-            <artifactId>objenesis</artifactId>
-            <version>${objenesis.version}</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -152,7 +146,7 @@
             <artifactId>spring-cloud-stream-test-support</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
+        <dependency> <!-- enables mocking of classes without default constructor (together with CGLIB) -->
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
             <version>2.6</version>
@@ -210,7 +204,9 @@
                 <executions>
                     <execution>
                         <phase>generate-test-sources</phase>
-                        <goals><goal>add-test-source</goal></goals>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
                         <configuration>
                             <sources>
                                 <source>src/test/groovy</source>
