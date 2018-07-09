@@ -16,8 +16,6 @@ public enum ClaimStatus {
         public boolean allowsAcceptance() {
             return false;
         }
-
-
     },
     EVALUATED {
         @Override

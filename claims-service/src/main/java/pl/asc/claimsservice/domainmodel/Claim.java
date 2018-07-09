@@ -39,7 +39,7 @@ public class Claim {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "claim")
     private Set<ClaimItem> items;
 
-    public Claim(String number, LocalDate eventDate, Policy policy){
+    public Claim(String number, LocalDate eventDate, Policy policy) {
         this.number = number;
         this.policyVersionRef = PolicyVersionRef.of(policy.versions().validAtDate(eventDate));
         this.eventDate = eventDate;
@@ -81,7 +81,7 @@ public class Claim {
     }
 
     private void rejectAllItems() {
-        items.forEach(i -> i.reject());
+        items.forEach(ClaimItem::reject);
         evaluation = ClaimItemEvaluation.of(this.items);
     }
 }

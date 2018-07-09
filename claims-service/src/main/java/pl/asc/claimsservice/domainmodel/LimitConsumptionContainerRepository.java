@@ -7,9 +7,10 @@ import java.util.List;
 
 @Repository
 public interface LimitConsumptionContainerRepository extends JpaRepository<LimitConsumptionContainer, Long> {
-    List<LimitConsumptionContainer> findByPolicyRefPolicyNumberAndServiceCodeCodeIn(String policyNumber,List<String> codes);
 
-    default LimitConsumptionContainerCollection findForPolicyAndServices(String policyNumber,List<String> codes){
+    List<LimitConsumptionContainer> findByPolicyRefPolicyNumberAndServiceCodeCodeIn(String policyNumber, List<String> codes);
+
+    default LimitConsumptionContainerCollection findForPolicyAndServices(String policyNumber, List<String> codes) {
         return new LimitConsumptionContainerCollection(findByPolicyRefPolicyNumberAndServiceCodeCodeIn(policyNumber, codes));
     }
 

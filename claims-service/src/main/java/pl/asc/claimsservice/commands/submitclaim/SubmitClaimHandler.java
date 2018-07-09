@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, SubmitClaimCommand> {
+    
     private final PolicyRepository policyRepository;
     private final ClaimRepository claimRepository;
     private final LimitConsumptionContainerRepository consumptionContainerRepository;
@@ -36,7 +37,7 @@ public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, Sub
                 collectServiceCodes(submitClaimCommand.getItems()));
 
         Claim claim = ClaimFactory
-                .forPolicy(policy)
+                .forPolicy(policy.get())
                 .withNumber(claimNumberGenerator.generateClaimNumber())
                 .withEventDate(submitClaimCommand.getEventDate())
                 .withItems(submitClaimCommand.getItems())
@@ -48,12 +49,14 @@ public class SubmitClaimHandler implements CommandHandler<SubmitClaimResult, Sub
 
         consumptionContainerRepository.save(consumptions);
 
-        eventPublisher.publishEvent(new ClaimCreatedEvent(this, claim));
+        eventPublisher.publishEvent(new ClaimSubmittedEvent(this, claim));
 
         return SubmitClaimResult.success(claim);
     }
 
     private List<String> collectServiceCodes(Set<SubmitClaimCommand.Item> items) {
-        return items.stream().map(i -> i.getServiceCode()).collect(Collectors.toList());
+        return items.stream()
+                .map(SubmitClaimCommand.Item::getServiceCode)
+                .collect(Collectors.toList());
     }
 }

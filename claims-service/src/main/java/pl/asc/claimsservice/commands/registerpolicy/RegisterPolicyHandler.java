@@ -7,7 +7,6 @@ import pl.asc.claimsservice.domainmodel.Policy;
 import pl.asc.claimsservice.domainmodel.PolicyFactory;
 import pl.asc.claimsservice.domainmodel.PolicyRepository;
 import pl.asc.claimsservice.shared.cqs.CommandHandler;
-import pl.asc.claimsservice.shared.exceptions.BusinessException;
 
 import java.util.Optional;
 

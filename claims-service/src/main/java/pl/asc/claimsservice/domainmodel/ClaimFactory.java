@@ -5,7 +5,6 @@ import pl.asc.claimsservice.shared.primitives.MonetaryAmount;
 import pl.asc.claimsservice.shared.primitives.Quantity;
 
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.Set;
 
 public class ClaimFactory {
@@ -18,8 +17,8 @@ public class ClaimFactory {
         this.policy = policy;
     }
 
-    public static ClaimFactory forPolicy(Optional<Policy> policy) {
-        return new ClaimFactory(policy.get());
+    public static ClaimFactory forPolicy(Policy policy) {
+        return new ClaimFactory(policy);
     }
 
     public ClaimFactory withNumber(String number) {
@@ -39,7 +38,11 @@ public class ClaimFactory {
 
     public Claim create() {
         Claim claim = new Claim(claimNumber, eventDate, policy);
-        this.items.forEach(i -> claim.addItem(ServiceCode.of(i.getServiceCode()), Quantity.of(i.getQuantity()), MonetaryAmount.from(i.getPrice())));
+        this.items.forEach(i -> claim.addItem(
+                ServiceCode.of(i.getServiceCode()),
+                Quantity.of(i.getQuantity()),
+                MonetaryAmount.from(i.getPrice()))
+        );
         return claim;
     }
 }

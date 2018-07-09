@@ -13,7 +13,7 @@ import pl.asc.claimsservice.domainmodel.Claim;
 public class SubmitClaimResult {
     private String claimNumber;
 
-    public static SubmitClaimResult success(Claim claim) {
+    static SubmitClaimResult success(Claim claim) {
         return new SubmitClaimResult(claim.getNumber());
     }
 }

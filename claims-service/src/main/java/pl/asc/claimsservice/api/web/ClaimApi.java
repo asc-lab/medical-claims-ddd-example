@@ -1,7 +1,6 @@
 package pl.asc.claimsservice.api.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.asc.claimsservice.commands.acceptclaim.AcceptClaimCommand;
 import pl.asc.claimsservice.commands.acceptclaim.AcceptClaimResult;
@@ -17,39 +16,31 @@ import pl.asc.claimsservice.shared.cqs.CommandBus;
 
 @RestController
 @RequestMapping("/api/claim")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ClaimApi  {
+@RequiredArgsConstructor
+public class ClaimApi {
+
     private final CommandBus bus;
 
-    //submit
     @PostMapping("/submit")
-    public SubmitClaimResult submit(@RequestBody SubmitClaimCommand cmd){
-        SubmitClaimResult submitResult = bus.executeCommand(cmd);
-        return submitResult;
+    public SubmitClaimResult submit(@RequestBody SubmitClaimCommand cmd) {
+        return bus.executeCommand(cmd);
     }
 
-    //accept
     @PostMapping("/accept")
-    public AcceptClaimResult accept(@RequestBody AcceptClaimCommand cmd){
-        AcceptClaimResult acceptResult = bus.executeCommand(cmd);
-        return acceptResult;
+    public AcceptClaimResult accept(@RequestBody AcceptClaimCommand cmd) {
+        return bus.executeCommand(cmd);
     }
 
-    //reject
     @PostMapping("/reject")
-    public RejectClaimResult accept(@RequestBody RejectClaimCommand cmd){
-        RejectClaimResult rejectResult = bus.executeCommand(cmd);
-        return rejectResult;
+    public RejectClaimResult accept(@RequestBody RejectClaimCommand cmd) {
+        return bus.executeCommand(cmd);
     }
 
-    //get
     @GetMapping("/{claimNumber}")
     public GetClaimResult get(@PathVariable(name = "claimNumber") String claimNumber) {
-        GetClaimResult getResult = bus.executeQuery(new GetClaimQuery(claimNumber));
-        return getResult;
+        return bus.executeQuery(new GetClaimQuery(claimNumber));
     }
 
-    //search
     @GetMapping("/search")
     public FindClaimQueryResult find() {
         return bus.executeQuery(new FindClaimQuery());
