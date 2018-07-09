@@ -5,37 +5,34 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.asc.claimsservice.domainmodel.Claim;
-import pl.asc.claimsservice.domainmodel.ClaimCreatedEvent;
-
-import java.util.stream.Collectors;
+import pl.asc.claimsservice.domainmodel.ClaimAcceptedEvent;
+import pl.asc.claimsservice.domainmodel.ClaimRejectedEvent;
+import pl.asc.claimsservice.domainmodel.ClaimSubmittedEvent;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ClaimViewProjectionService {
+
     private final ClaimViewRepository claimViewRepository;
 
     @EventListener
-    void onClaimCreated(ClaimCreatedEvent claimCreatedEvent){
-        ClaimView claimView = createClaimView(claimCreatedEvent.getClaim());
-        claimViewRepository.save(claimView);
+    void onClaimSubmitted(ClaimSubmittedEvent event) {
+        saveMappedClaim(event.getClaim());
     }
 
-    void onClaimApproved() {}
+    @EventListener
+    void onClaimAccepted(ClaimAcceptedEvent event) {
+        saveMappedClaim(event.getClaim());
+    }
 
-    void onClaimRejected() {}
+    @EventListener
+    void onClaimRejected(ClaimRejectedEvent event) {
+        saveMappedClaim(event.getClaim());
+    }
 
-    private ClaimView createClaimView(Claim claim) {
-        return new ClaimView(
-                null,
-                claim.getNumber(),
-                claim.getStatus().toString(),
-                claim.getPolicyVersionRef().getPolicyNumber(),
-                claim.getEventDate(),
-                claim.getEvaluation().getPaidByCustomer().add(claim.getEvaluation().getPaidByInsurer()).getAmount(),
-                claim.getEvaluation().getPaidByInsurer().getAmount(),
-                claim.getEvaluation().getPaidByCustomer().getAmount(),
-                claim.getItems().stream().map(s->s.getServiceCode().getCode()).collect(Collectors.toList())
-        );
+    private void saveMappedClaim(Claim claim) {
+        ClaimView claimView = ClaimViewAssembler.map(claim);
+        claimViewRepository.save(claimView);
     }
 }

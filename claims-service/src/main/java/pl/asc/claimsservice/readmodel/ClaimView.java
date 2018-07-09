@@ -21,17 +21,11 @@ public class ClaimView {
     Long id;
 
     private String claimNumber;
-
     private String statusCode;
-
     private String policyNumber;
-
     private LocalDate eventDate;
-
     private BigDecimal amount;
-
     private BigDecimal amountPaidByInsurer;
-
     private BigDecimal amountPaidByCustomer;
 
     @ElementCollection
