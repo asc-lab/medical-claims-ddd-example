@@ -9,7 +9,6 @@
     <packaging>jar</packaging>
 
     <name>claims-service</name>
-    <description>patterns for future fox/wolf/wl development</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -79,8 +78,8 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
         </dependency>
-
         <!-- END SPRING DEPENDENCIES -->
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
