@@ -8,76 +8,81 @@ Zdarzenie to zawiera następujące dane polisy:
 
 ```json
 {
-	"policyNumber": "P1212121",
-	"productCode": "Pakiet Gold",
-	"policyHolder": {
-		"firstName": "Jan",
-		"lastName": "Nowak",
-		"pesel": "1111111116",
-		"accountNumber": "2738123834783247723",
-		"address": {
-			"country": "PL",
-			"city": "Warszawa",
-			"zipCode": "01-001",
-			"street": "JaksTam 123 m 2"
-		}
-	},
-	"policyValidFrom": "2018-01-01",
-	"policyValidTo": "2018-12-31",
-	"versionNumber": 1,
-	"versionValidFrom": "2018-01-01",
-	"versionValidTo": null,
-	"covers": [{
-			"coverCode": "KONS",
-			"services": [{
-					"code": "KONS_INTERNISTA",
-					"coPayment": {
-						"percent": 0.25
-					},
-					"limit": {
-						"maxQuantity": null,
-						"maxAmount": 100,
-						"limitPeriod": "POLICY_YEAR"
-					}
-				}, {
-					"code": "KONS_PEDIATRA",
-					"coPayment": {
-						"amount": 10
-					},
-					"limit": {
-						"maxQuantity": 20,
-						"maxAmount": 100,
-						"limitPeriod": "POLICY_YEAR"
-					}
-				}
-			]
-		}, {
-			"coverCode": "LAB",
-			"services": [{
-					"code": "LAB_KREW_OB",
-					"coPayment": {
-						"percent": 0.10
-					},
-					"limit": {
-						"maxQuantity": 5,
-						"maxAmount": 50,
-						"limitPeriod": "POLICY_YEAR"
-					}
-				}, {
-					"code": "LAB_HDL",
-					"coPayment": {
-						"amount": 2
-					},
-					"limit": {
-						"maxQuantity": 2,
-						"maxAmount": 28,
-						"limitPeriod": "POLICY_YEAR"
-					}
-				}
-			]
-		}
-	]
-}
+"policyNumber": "P1212121",
+"productCode": "Pakiet Gold",
+  "policyHolder": {
+    "firstName": "Jan",
+    "lastName": "Nowak",
+    "pesel": "1111111116",
+    "accountNumber": "2738123834783247723",
+    "address": {
+      "country": "PL",
+      "city": "Warszawa",
+      "zipCode": "01-001",
+      "street": "JaksTam 123 m 2"
+    }
+},
+"policyValidFrom": "2018-01-01",
+"policyValidTo": "2018-12-31",
+"versionNumber": 1,
+"versionValidFrom": "2018-01-01",
+"versionValidTo": null,
+"covers": [
+  {
+    "coverCode": "KONS",
+    "services": [
+      {
+        "code": "KONS_INTERNISTA",
+        "coPayment": {
+          "percent": 0.25
+        },
+        "limit": {
+          "maxQuantity": null,
+          "maxAmount": 100,
+          "limitPeriod": "POLICY_YEAR"
+        }
+      },
+      {
+        "code": "KONS_PEDIATRA",
+        "coPayment": {
+          "amount": 10
+        },
+        "limit": {
+          "maxQuantity": 20,
+          "maxAmount": 100,
+          "limitPeriod": "POLICY_YEAR"
+        }
+      }
+    ]
+  },
+  {
+    "coverCode": "LAB",
+    "services": [
+      {
+        "code": "LAB_KREW_OB",
+        "coPayment": {
+          "percent": 0.10
+        },
+        "limit": {
+          "maxQuantity": 5,
+          "maxAmount": 50,
+          "limitPeriod": "POLICY_YEAR"
+        }
+      },
+      {
+        "code": "LAB_HDL",
+        "coPayment": {
+          "amount": 2
+        },
+        "limit": {
+          "maxQuantity": 2,
+          "maxAmount": 28,
+          "limitPeriod": "POLICY_YEAR"
+        }
+      }
+    ]
+  }
+]}
 ```
 
 Komponent polisowy posiada też API pozwalające na pobranie danych polisy po podaniu jej numeru i daty, na którą mają być zwrócone aktualne dane.
