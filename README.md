@@ -94,16 +94,16 @@ Obsługa szkód składa się z:
 W ramach rejestracji szkody system musi otrzymać następujące dane: numer polisy, datę zdarzenia, kod placówki medycznej (ze słownika) oraz listę pozycji na szkodzie. Każda pozycja zawiera kod usługi (ze słownika), ilość usług, cenę. System sprawdza, czy istnieje polisa o padnym numerze, jeśli nie to zgłasza błąd i proces się kończy.
 Jeśli polisa istnieje to system zapisuje dane szkody a następnie sprawdza pokrycie ubezpieczeniem: jeśli data zdarzenie nie jest objęta okresem obowiązywania polisy, to szkoda zostaje automatycznie odrzucona z powodem: Zdarzenie nastąpiło poza okresem ochrony. Pełen koszt każdej usługi ponosi ubezpieczony. W przeciwnym przypadku system wylicza dla każdej pozycji kwotę do wypłaty przez ubezpieczyciela. System robi to w następujący sposób dla każdej pozycji:
 
-- sprawdzenie, czy na polisie w ochronach jest usługa o kodzie z pozycji, jeśli nie ma to cały koszt ponosi ubezpieczony,
-- system wylicza udział własny na podstawie definicji co-payment z polisy (procentowy, lub kwotowy)
-- następnie pozostała kwota porównywana jest z limitem na daną usługę i dotychczasowym zużyciem tego limitu np. ```"limit" : { "maxQuantity" : null, "maxAmount" : 100, "limitPeriod" : "POLICY_YEAR" }``` oznacza, że w ciągu roku polisowego ubezpieczonemu przysługuje zwrot maksymalnie 100PLN ale ma nieograniczoną liczbę wystąpienia usługi. W ten sposób powstaje kwota do zapłaty przez ubezpieczyciela. System rezerwuje sobie kwoty konsumpcji limitu wynikające z danej linii.
-- na końcu system zapisuje kwotę do zapłaty przez ubezpieczyciela i przez ubezpieczonego, generuje unikalny numer szkody i zapisuje dane. Na tym kończy się proces rejestracji.
+    - sprawdzenie, czy na polisie w ochronach jest usługa o kodzie z pozycji, jeśli nie ma to cały koszt ponosi ubezpieczony,
+    - system wylicza udział własny na podstawie definicji co-payment z polisy (procentowy, lub kwotowy)
+    - następnie pozostała kwota porównywana jest z limitem na daną usługę i dotychczasowym zużyciem tego limitu np. ```"limit" : { "maxQuantity" : null, "maxAmount" : 100, "limitPeriod" : "POLICY_YEAR" }``` oznacza, że w ciągu roku polisowego ubezpieczonemu przysługuje zwrot maksymalnie 100PLN ale ma nieograniczoną liczbę wystąpienia usługi. W ten sposób powstaje kwota do zapłaty przez ubezpieczyciela. System rezerwuje sobie kwoty konsumpcji limitu wynikające z danej linii.
+    - na końcu system zapisuje kwotę do zapłaty przez ubezpieczyciela i przez ubezpieczonego, generuje unikalny numer szkody i zapisuje dane. Na tym kończy się proces rejestracji.
 
 2. **Akceptacja, odrzucenia lub korekta zarejstrowanej szkody** \
 Zarejestrowana szkoda może zostać odrzucona, zaakceptowana lub poddane korekcie (funkcji korekty możemy nie implementować w pierwszej fazie).
 
-- **Akceptacja** - użytkownik z odpowiednim uprawnieniem może zaakceptować szkodę. Akcje to powoduje trwałą konsumpcje limitów.
-- **Odrzucenia** -akcja to zwalnia konsumpcje limitów i powoduje, że cały koszt szkody ponosi ubezpieczony.
+    - **Akceptacja** - użytkownik z odpowiednim uprawnieniem może zaakceptować szkodę. Akcje to powoduje trwałą konsumpcje limitów.
+    - **Odrzucenia** -akcja to zwalnia konsumpcje limitów i powoduje, że cały koszt szkody ponosi ubezpieczony.
 
 3. **Wyszukanie szkody** \
 System pozwala na wyszukanie szkody po: numerze, statusie, zakresie dat zdarzenia, zakresie kwot roszczenia, numerze polisy, kodzie usługi, kodzie placówki medycznej.
@@ -128,14 +128,14 @@ W szczególności ważne jest zaprezentowanie zasad:
 12) tworzenie czytelnego i testowalnego kodu
 13) zaprezentowanie implementacji typowych elementów:
 
-- obsługa zdarzeń przychodzących
-- implementacja logiki biznesowej
-- implementacja zapisu / odczytu z bazy danych
-- publikowanie zdarzeń
-- komunikacja z innymi modułami
-- implementacja wyszukiwanie
-- API REST
-- procesy batchowe
-- konfiguracja
-- testy jednostkowe
-- testy integracyjne
+    - obsługa zdarzeń przychodzących
+    - implementacja logiki biznesowej
+    - implementacja zapisu / odczytu z bazy danych
+    - publikowanie zdarzeń
+    - komunikacja z innymi modułami
+    - implementacja wyszukiwanie
+    - API REST
+    - procesy batchowe
+    - konfiguracja
+    - testy jednostkowe
+    - testy integracyjne
